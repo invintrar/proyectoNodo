@@ -6,6 +6,7 @@
 */
 #include "adxl355.h"
 #include <p33EP256MC202.h>
+#include "ds3234.h"
 
 
 // Provide C++ Compatibility
@@ -76,6 +77,9 @@ void EX_INT2_CallBack(void);
 extern uint8_t bNrf;
 extern uint8_t bInt1;
 extern uint8_t nrfDataRx[14];
+extern uint8_t bNrfsync; // variable de sincronizacion
+extern ds3234_time rtcTime; // Valor tomna el tiempo del RTC
+
 
 void EXT_INT_Initialize(void);
 // Provide C++ Compatibility

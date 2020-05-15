@@ -40,6 +40,18 @@ typedef struct{
               * Variable for time (Seconds,Minutes, Hours)
               */
 
+typedef struct{ // variable para sincronizacion
+    //Seconds(00-1000)
+    uint8_t microseconds;
+    //Seconds(00-59)
+    uint8_t seconds;
+    //Minutes(00-59)
+    uint8_t minutes;
+    //Hours(00-23)
+    uint8_t hours;
+}ds3234_time_u;
+
+
 typedef struct{
     // Alarm 1 Interrupt Enable
     uint8_t A1IE : 1;
