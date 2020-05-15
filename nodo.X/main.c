@@ -1,9 +1,8 @@
 
 /*
- * agrego comentario jose
- * Comentario de Darwin Zhagnayl
+ * 
  * File:   main.c
- * Author: Darwin
+ * Author: Darwin & Jose
  *
  * Created on June 26, 2019, 12:15 AM
  */
@@ -80,7 +79,7 @@ int main(void) {
     //ADC1_SamplingStop();
 
     
-    // Loop Infinite para sincronizacion
+    // Loop Infinite for synchronization
     while (bNrfsync < 5) {
 
             if (bNrf == 1 && bNrfsync == 0){ //Data Ready // igualo el Ds3234
@@ -265,8 +264,9 @@ int main(void) {
     }// end loop 
         
     return 0;
-}
+}// End main
 
+// Function for initialize variables
 void initVariables() {
     bInt1 = 0;
     wuSD = 0;
@@ -288,18 +288,20 @@ void initVariables() {
     // Put all values of the time to cero 
     (*(uint8_t *) & rtc) = 0x00;
 
-    // Address NrF24L01 RX and TX
+    // Set address NRF24L01+ RX and TX
     for (i = 0; i < 5; i++) {
         //RX Address 
         rx_addr[i] = 0xA1;
         //TX Address
         tx_addr[i] = 0x78;
     }
-    //Initialization the variable of ADXL355z
+    
+    //Initialization the variable of ADXL355Z
     for (i = 0; i < 63; i++) {
         dataAdxl[i] = 0x00;
     }
-    //Initialization the variable of Data Nrf24L01 +
+    
+    //Initialization the variable of Data NRF24L01+
     for (i = 0; i < 14; i++) {
         nrfDataRx[i] = 0x00;
         nrfDataTx[i] = 0x00;
@@ -313,7 +315,7 @@ void initVariables() {
 }
 
 /**
- * Use for sent data for Nrf24L1+
+ * Use for sent data for NRF24L1+
  */
 void sentData() {
     // Start measuring
@@ -341,17 +343,14 @@ void sentData() {
     nrfDataTx[11] = dataAdxl[6];
     nrfDataTx[12] = dataAdxl[7];
     nrfDataTx[13] = dataAdxl[8];
-    //Sent Data for Nrf24L01+
+    //Sent Data for NRF24L01+
     RF24L01_sendData(nrfDataTx, sizeof (nrfDataTx));
-}
+} // end send data 
 
-
-
+/**
+ * Send data for synchronization 
+ */
 void sentData_time() {
-    // Start measuring
-    //ADC1_SamplingStart();
-    //ADC1_SamplingStop();
-
     // Read RTC time
     DS3234_Time(&rtcTime);
 
@@ -378,6 +377,6 @@ void sentData_time() {
     nrfDataTx[11] = dataAdxl[6];
     nrfDataTx[12] = dataAdxl[7];
     nrfDataTx[13] = dataAdxl[8]; */
-    //Sent Data for Nrf24L01+
+    //Sent Data for NRF24L01+
     RF24L01_sendData(nrfDataTx, sizeof (nrfDataTx));
 }
