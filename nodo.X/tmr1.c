@@ -105,8 +105,8 @@ void __attribute__((weak)) TMR1_CallBack(void) {
     // Add your custom callback code here
     //Espera 1uS
     timeMcs++;
-    if (timeMcs == 1000) {
-        timeMls++;
+    if (timeMcs == 1000000) {
+        //timeMls++;
         timeMcs = 0;
     }
 
