@@ -43,7 +43,13 @@ void __attribute__((weak)) EX_INT2_CallBack(void) {
     //Return 1:Data Sent, 2:RX_DR, 3:MAX_RT
     bNrf = RF24L01_status();
     
-    if(bNrf==1){
+    //DS3234_Time(&rtcTime);
+    
+    if(bNrf == 1){
+        if (bNrfsync == 1) {
+            DS3234_Time(&rtcTime);  // Se obtiene el t2
+            bNrfsync = 2; // se obtiene el t1
+        }
         RF24L01_read_payload(nrfDataRx, sizeof (nrfDataRx));
         RF24L01_clear_interrupts();
         return;
