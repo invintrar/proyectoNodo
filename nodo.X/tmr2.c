@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include "tmr2.h"
+#include "main.h"
 
 /**
  Section: File specific functions
@@ -128,7 +129,7 @@ void __attribute__((weak)) TMR2_CallBack(void) {
     timeSec++;
     timeMcs = 0;
     timeMls = 0;
-    LATAbits.LATA1^=1;
+    Led_verde_toggle();
 }
 
 void TMR2_SetInterruptHandler(void (* InterruptHandler)(void)) {

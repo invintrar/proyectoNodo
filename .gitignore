@@ -1,8 +1,6 @@
 nodo.X/build
 nodo.X/debug
-
-
-
-nodo.X/nbproject/private/private.xml
+nodo.X/dist
+nodo.X/nbproject/private
 nodo.X/nbproject/Makefile-genesis.properties
 nodo.X/nbproject/private/private.xml

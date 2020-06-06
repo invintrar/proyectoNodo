@@ -26,7 +26,7 @@ uint8_t rx_addr[5], tx_addr[5];
 uint8_t nrfDataRx[14], nrfDataTx[14];
 //Flag to use in the software
 uint8_t buSDState, j, idNodo;
-uint8_t bNrf, bMrx, bInt1, bInituSD,bNrfsync; //bNrfsync variable de sincronizacion
+uint8_t bNrf, bMrx, bInt1, bInituSD, bNrfsync; //bNrfsync variable de sincronizacion
 uint16_t i;
 uint16_t timeMcs;
 uint16_t per;
@@ -37,8 +37,8 @@ uint8_t timeHor;
 unsigned char wuSD;
 //Variable use in DS3234
 ds3234_data_time rtc;
-ds3234_time rtcTime; 
-ds3234_time_u time1, time2, time3, time4; // variables para sincronizacion
+ds3234_time rtcTime;
+ds3234_time_sync time1Sync, time2Sync, time3Sync, time4Sync; // variables para sincronizacion
 uint32_t sector;
 //Variable use in ACS722 sensor current
 uint16_t vAdc;
@@ -60,7 +60,7 @@ int main(void) {
     __delay_ms(250);
 
     //Setup  RF24L01
-    RF24L01_setup(tx_addr, rx_addr, 22);
+    //q RF24L01_setup(tx_addr, rx_addr, 22);
 
     //Set Time of RTC(DS3234)
     //DS3234_setTime(rtc);
@@ -78,112 +78,63 @@ int main(void) {
     //ADC1_SamplingStart();
     //ADC1_SamplingStop();
 
-    
+
+    /*
     // Loop Infinite for synchronization
     while (bNrfsync < 5) {
-
-            if (bNrf == 1 && bNrfsync == 0){ //Data Ready // igualo el Ds3234
-                //Move from Nrf data receive to variable RTC for sent to RTC
-                rtc.seconds = nrfDataRx[0];
-                rtc.minutes = nrfDataRx[1];
-                rtc.hours = nrfDataRx[2];
-                rtc.day = nrfDataRx[3];
-                rtc.month = nrfDataRx[4];
-                rtc.date = nrfDataRx[5];
-                rtc.year = nrfDataRx[6];
-                //Equals counter timer
-                timeSec = rtc.seconds;
-                timeMin = rtc.minutes;
-                timeHor = rtc.hours;
-                TMR1_Start();
-                //TMR2_Start();
-                //TMR4_Start();
-                // Set Time of the RTC
-                DS3234_setTime(rtc);
-                bNrfsync = 1; // Asignacion de tiempo en DS3234
+        if (bNrf == 1 && bNrfsync == 0) { //Data Ready // igualo el Ds3234
+            //Move from Nrf data receive to variable RTC for sent to RTC
+            rtc.seconds = nrfDataRx[0];
+            rtc.minutes = nrfDataRx[1];
+            rtc.hours = nrfDataRx[2];
+            rtc.day = nrfDataRx[3];
+            rtc.month = nrfDataRx[4];
+            rtc.date = nrfDataRx[5];
+            rtc.year = nrfDataRx[6];
+            //Equals counter timer
+            timeSec = rtc.seconds;
+            timeMin = rtc.minutes;
+            timeHor = rtc.hours;
+            TMR1_Start();
+            //TMR2_Start();
+            //TMR4_Start();
+            // Set Time of the RTC
+            DS3234_setTime(rtc);
+            bNrfsync = 1; // Asignacion de tiempo en DS3234
+            bNrf = 4;
+        } else if (bNrf == 1 && bNrfsync == 2) { //Data Ready // igualo el Ds3234 // Se obtiene t1
+            bNrfsync = 3; // Asignacion de tiempo en DS3234
+            bNrf = 2; // va a transmitir el tiempo a la EB
+        } else if (bNrf == 1 && bNrfsync == 4) { //Data Ready // igualo el Ds3234 // Se obtiene t4
+            
+            bNrfsync = 5; // Asignacion de tiempo en DS3234
+            //bNrf = 2; // va a transmitir el tiempo a la EB
+        }
+        else if (bNrf == 2 && bNrfsync == 3) { //Data sent TX
+            if (timeMcs == 0) {
+                sentData_time(); // envia cuando pasa de segundo
+                bNrfsync = 4; // se prepara para recibir el ultimo tiempo
                 bNrf = 4;
             }
-            else if(bNrf == 1 && bNrfsync == 2){ //Data Ready // igualo el Ds3234 // Se obtiene t1
-                //Move from Nrf data receive to variable RTC for sent to RTC
-                time1.seconds = nrfDataRx[0];
-                time1.minutes = nrfDataRx[1];
-                time1.hours = nrfDataRx[2];
-                time1.microseconds = nrfDataRx[3]; // Almacena el tiempo 1 // EDITAR PARA RECIBIR DE LA EB
-                time2.seconds = rtcTime.seconds;
-                time2.minutes = rtcTime.minutes;
-                time2.hours = rtcTime.hours;
-                time2.microseconds = timeMcs; // Almacena el tiempo 2
-                //rtc.day = nrfDataRx[3];
-                //rtc.month = nrfDataRx[4];
-                //rtc.date = nrfDataRx[5];
-                //rtc.year = nrfDataRx[6];
-                //Equals counter timer
-                //timeSec = rtc.seconds;
-                //timeMin = rtc.minutes;
-                //timeHor = rtc.hours;
-                
-                //TMR1_Start();
-                //TMR2_Start();
-                //TMR4_Start();
-                // Set Time of the RTC
-                //DS3234_setTime(rtc);
-                bNrfsync = 3; // Asignacion de tiempo en DS3234
-                bNrf = 2; // va a transmitir el tiempo a la EB
+        } else if (bNrf == 3 && bNrfsync == 3) { //MAX_RT TX
+            if (timeMcs == 0) {
+                sentData_time(); // envia cuando pasa de segundo
+                bNrfsync = 4; // se prepara para recibir el ultimo tiempo
+                bNrf = 4;
             }
-            else if (bNrf == 1 && bNrfsync == 4){ //Data Ready // igualo el Ds3234 // Se obtiene t4
-                //Move from Nrf data receive to variable RTC for sent to RTC
-                time4.seconds = nrfDataRx[0];
-                time4.minutes = nrfDataRx[1];
-                time4.hours = nrfDataRx[2];
-                time4.microseconds = nrfDataRx[3]; // Almacena el tiempo 1 // EDITAR PARA RECIBIR DE LA EB 
-                //rtc.day = nrfDataRx[3];
-                //rtc.month = nrfDataRx[4];
-                //rtc.date = nrfDataRx[5];
-                //rtc.year = nrfDataRx[6];
-                //Equals counter timer
-                //timeSec = rtc.seconds;
-                //timeMin = rtc.minutes;
-                //timeHor = rtc.hours;
-                
-                //TMR1_Start();
-                //TMR2_Start();
-                //TMR4_Start();
-                // Set Time of the RTC
-                //DS3234_setTime(rtc);
-                bNrfsync = 5; // Asignacion de tiempo en DS3234
-                //bNrf = 2; // va a transmitir el tiempo a la EB
-            }
-           
-            else if (bNrf == 2 && bNrfsync == 3){ //Data sent TX
-                if (timeMcs == 0) {
-                    sentData_time(); // envia cuando pasa de segundo
-                    bNrfsync = 4; // se prepara para recibir el ultimo tiempo
-                    bNrf = 4;
-                }
-            }
-            else if (bNrf == 3 && bNrfsync == 3){ //MAX_RT TX
-                if (timeMcs == 0) {
-                    sentData_time(); // envia cuando pasa de segundo
-                    bNrfsync = 4; // se prepara para recibir el ultimo tiempo
-                    bNrf = 4;
-                }
-            }
-            else if (bNrf == 4){ //Mode RX
-                RF24L01_set_mode_RX();
-                bNrf = 0;
-            }
-            else {
-            }
+        } else if (bNrf == 4) { //Mode RX
+            RF24L01_set_mode_RX();
+            bNrf = 0;
+        } else {
+        }
     }
-    
-    
-    
-     
+     */
+
+
     // Loop Infinite
-    while (1) 
-    {
-        Led_verde_toggle();
-        __delay_ms(250);
+    while (1) {
+        //Led_verde_toggle();
+        //__delay_ms(250);
         /*
         switch (bNrf) {
             case 1://Data Ready
@@ -259,14 +210,15 @@ int main(void) {
             Led_verde_setLow();
             SD_Init();
         } */
-        
-        
+
+
     }// end loop 
-        
+
     return 0;
 }// End main
 
 // Function for initialize variables
+
 void initVariables() {
     bInt1 = 0;
     wuSD = 0;
@@ -295,12 +247,12 @@ void initVariables() {
         //TX Address
         tx_addr[i] = 0x78;
     }
-    
+
     //Initialization the variable of ADXL355Z
     for (i = 0; i < 63; i++) {
         dataAdxl[i] = 0x00;
     }
-    
+
     //Initialization the variable of Data NRF24L01+
     for (i = 0; i < 14; i++) {
         nrfDataRx[i] = 0x00;
@@ -356,14 +308,6 @@ void sentData_time() {
 
     // Add data to send
     //Get Data DS3234
-    time3.seconds = rtcTime.seconds;
-    time3.minutes = rtcTime.minutes;
-    time3.hours = rtcTime.hours;
-    time3.microseconds = timeMcs; // Almacena el tiempo 3
-    nrfDataTx[0] = time3.seconds;
-    nrfDataTx[1] = time3.minutes;
-    nrfDataTx[2] = time3.hours;
-    nrfDataTx[3] = time3.microseconds;
     // Get Data ACS722
     /*nrfDataTx[3] = vAdc;
     nrfDataTx[4] = vAdc >> 8;

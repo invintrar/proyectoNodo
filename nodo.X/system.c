@@ -5,7 +5,7 @@ void SYSTEM_Initialize(void) {
 
     pines_Conf_Init();
 
-    SPI2_Init();
+    //SPI2_Init();
 
     INTERRUPT_Initialize();
 
@@ -28,17 +28,17 @@ void SYSTEM_Initialize(void) {
     */
 
     //Initialize Real clock time
-    DS3234_Init();
+    //DS3234_Init();
 
     // Initialize accelerometer
     //ADXL355_Init();
 
     //Initialize module nRF24L01
-    RF24L01_Init();
+    //RF24L01_Init();
 
-    TMR1_Initialize();
+    //TMR1_Initialize();
 
-    //TMR2_Initialize();
+    TMR2_Initialize();
 
     //TMR4_Initialize();
 
