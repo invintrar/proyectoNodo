@@ -128,7 +128,7 @@ void __attribute__((weak)) TMR2_CallBack(void) {
     //Timer 1s
     timeSec++;
     timeMcs = 0;
-    timeMls = 0;
+    //timeMls = 0;
     Led_verde_toggle();
 }
 

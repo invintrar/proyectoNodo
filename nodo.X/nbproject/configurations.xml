@@ -21,6 +21,7 @@
       <itemPath>system_types.h</itemPath>
       <itemPath>tmr2.h</itemPath>
       <itemPath>tmr4.h</itemPath>
+      <itemPath>statement.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
