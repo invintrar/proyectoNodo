@@ -7,13 +7,12 @@ además se utilizá el reloj de tiempo real DS3234, se utiliza el acelerometro A
 Toda la programación se realiza en el ide MPLAB X con el compilar XC16.
 
 ## Requerimientos
-* Mplab X <!-- Links -->
-[Microchip](https://www.microchip.com/mplab/mplab-x-ide)
+* Mplab X  <!-- Links --> [Microchip](https://www.microchip.com/mplab/mplab-x-ide)
 * XC16 compiler
 * NRF24L01+
 * DS3234
 * ADXL355Z
-* dsPIC33EP256MC202
+* dsPIC33EP256MC202  <!-- Links --> [dsPIC](https://www.microchip.com/wwwproducts/en/dsPIC33EP256MC202)
 * Micro SD
 
 ## Contactos
