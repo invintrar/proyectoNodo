@@ -1,5 +1,5 @@
 <!-- Images -->
-![Markdown Logo](https://markdown-here.com/img/icon256.png)
+![Markdown Logo](https://github.com/invintrar/proyectoNodo/blob/master/microcontroller.svg)
 
 # proyectoNodo
 Utilizamos el dsPIC33EP256MC202 para realizar la comunicación con una raspberry Pi 3 para la cual se utilizá el moduló NRF24L01+ para la comunicación inalámbrica, 
