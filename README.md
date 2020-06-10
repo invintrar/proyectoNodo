@@ -15,9 +15,10 @@ Toda la programación se realiza en el ide MPLAB X con el compilar XC16.
 * dsPIC33EP256MC202
 * Micro SD
 
+## Contactos
 <!-- Tables -->
 | Nombre   | Email               |
 | -------- | ------------------- |
 | Darwin Z | invintrar@gmail.com |
-| Jose M   | jane@gmail.com      |
+| Jose M   | jose@gmail.com      |
 
