@@ -3,4 +3,13 @@ Utilizamos el dsPIC33EP256MC202 para realizar la comunicación con una raspberry
 además se utilizá el reloj de tiempo real DS3234, se utiliza el acelerometro ADXL355Z para obtener datos de aceleración dichos datos se guardan en una memoria microSD.
 Toda la programación se realiza en el ide MPLAB X con el compilar XC16.
 
+##Requerimientos
+1. Mplab X
+2. XC16 compiler
+3. NRF24L01+
+4. DS3234
+5. ADXL355Z
+6. dsPIC33EP256MC202
+7. Micro SD
+
 
