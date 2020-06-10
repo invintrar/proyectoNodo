@@ -1,5 +1,5 @@
 <!-- Images -->
-<img src="https://github.com/invintrar/proyectoNodo/blob/master/micro.jpg" width="600" height="600">
+<img src="https://github.com/invintrar/proyectoNodo/blob/master/micro.jpg" width="400" height="400">
 <a href="https://vectorfair.com">Vector Design</a>
 
 # proyectoNodo
