@@ -21,9 +21,9 @@ extern "C" {
     /**
      * Extern Variable
      */
-    extern uint16_t timeMcs;
-    extern uint16_t timeMls;
-    extern uint8_t timeSec;
+    //extern uint16_t timeMcs;
+    //extern uint16_t timeMls;
+    //extern uint8_t timeSec;
     /**
       Section: Interface Routines
      */

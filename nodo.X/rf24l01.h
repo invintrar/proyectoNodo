@@ -60,7 +60,7 @@
 #define RF24L01_command_W_TX_PAYLOAD_NOACK    0x58
 #define RF24L01_command_NOP                   0xFF
 
-/*Variables con campos de bits estructurado*/
+// Variables con campos de bits estructurado
 
 typedef struct _RF24L01_reg_CONFIG_content {
     uint8_t PRIM_RX : 1;
@@ -204,11 +204,11 @@ typedef struct _RF24L01_reg_FEATURE_content {
 } RF24L01_reg_FEATURE_content;
 
 
-/*Function Prototype*/
+/*                  Function Prototype                                      */
 
 void RF24L01_Init(void);
 
-void RF24L01_setup(uint8_t *tx_addr, uint8_t *rx_addr, uint8_t channel);
+void RF24L01_setup(uint8_t *tx_addr, uint8_t *rx_addr, uint8_t channel, uint8_t sizeData);
 
 void RF24L01_sendData(uint8_t *data, uint8_t size);
 

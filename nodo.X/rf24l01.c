@@ -77,7 +77,7 @@ void RF24L01_write_register(uint8_t register_addr, uint8_t *value, uint8_t lengt
  * @param RX Address
  * @param Channel
  */
-void RF24L01_setup(uint8_t *tx_addr, uint8_t *rx_addr, uint8_t channel) {
+void RF24L01_setup(uint8_t *tx_addr, uint8_t *rx_addr, uint8_t channel, uint8_t sizeData) {
     RF24L01_CE_SetLow();
 
     //Enable Auto Acknowledgment (0x01)
@@ -135,8 +135,8 @@ void RF24L01_setup(uint8_t *tx_addr, uint8_t *rx_addr, uint8_t channel) {
     //RX payload in data pipe0(0x11)
     RF24L01_reg_RX_PW_P0_content RX_PW_P0;
     *((uint8_t *) & RX_PW_P0) = 0;
-    //Number of bytes in RX payload in data Pipe0 (12 bytes)
-    RX_PW_P0.RX_PW_P0 = 0x0C;
+    //Number of bytes in RX payload in data Pipe0 (1...32bytes)
+    RX_PW_P0.RX_PW_P0 = sizeData;
     RF24L01_write_register(RF24L01_reg_RX_PW_P0, ((uint8_t *) & RX_PW_P0), 1);
     
     RF24L01_reg_STATUS_content status;  
@@ -296,15 +296,7 @@ uint8_t RF24L01_status(void) {
  */
 void RF24L01_clear_interrupts(void) {
     RF24L01_reg_STATUS_content status;  
-    
-    status = RF24L01_get_status();
-    
-    if(status.TX_DS){
-        RF24L01_send_command(RF24L01_command_FLUSH_TX);
-    }else if(status.MAX_RT){
-        RF24L01_send_command(RF24L01_command_FLUSH_TX);
-    }
-    
+
     *((uint8_t *) & status) = 0;
     status.RX_DR = 1;
     status.TX_DS = 1;
@@ -313,9 +305,10 @@ void RF24L01_clear_interrupts(void) {
 }
 
 void RF24L01_powerDown(void){
+    RF24L01_send_command(RF24L01_command_FLUSH_TX);
+    RF24L01_send_command(RF24L01_command_FLUSH_TX);
+    // Pin CE -> Low
     RF24L01_CE_SetLow();
-    __delay_us(200);
-    
     // Configuration Register (0x00)
     RF24L01_reg_CONFIG_content config;
     *((uint8_t *) & config) = 0;
@@ -326,6 +319,4 @@ void RF24L01_powerDown(void){
     //Enable CRC
     config.EN_CRC = 1;
     RF24L01_write_register(RF24L01_reg_CONFIG, ((uint8_t *) & config), 1);
-    
-    __delay_us(200);
 }

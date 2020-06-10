@@ -125,11 +125,11 @@ uint32_t TMR4_Counter32BitGet(void) {
 void __attribute__((weak)) TMR4_CallBack(void) {
     // Add your custom callback code here
     //Timer 60Seconds
-    timeSec = 0;
-    timeMin++;
-    if (timeMin == 60) {
-        timeHor++;
-    }
+    //timeSec = 0;
+    //timeMin++;
+    //if (timeMin == 60) {
+        //timeHor++;
+    //}
 }
 
 void TMR4_SetInterruptHandler(void (* InterruptHandler)(void)) {

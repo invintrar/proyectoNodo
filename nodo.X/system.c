@@ -11,8 +11,6 @@ void SYSTEM_Initialize(void) {
 
     EXT_INT_Initialize();
 
-
-
     //Initialize module ADC1
     //ADC1_Initialize();
 
@@ -26,6 +24,7 @@ void SYSTEM_Initialize(void) {
         SPI1_Init(FAST);
     }
     */
+    SPI1_Init(FAST);
 
     //Initialize Real clock time
     //DS3234_Init();
@@ -33,12 +32,12 @@ void SYSTEM_Initialize(void) {
     // Initialize accelerometer
     //ADXL355_Init();
 
-    //Initialize module nRF24L01
-    //RF24L01_Init();
+    // Initialize module nRF24L01
+    RF24L01_Init();
 
     //TMR1_Initialize();
 
-    TMR2_Initialize();
+    //TMR2_Initialize();
 
     //TMR4_Initialize();
 

@@ -5,48 +5,57 @@
 #define	STATEMENT
 
 #define TIMES                   500
-#define TO_NSEC(t)          (((long)t[0] * 1000000000L) + t[1])
+#define TO_NSEC(t)          ((t[0] * 1000000000L) + t[1])
+// Define Channel 
+#define CHANNEL     22
+// Define size data NRF24L01+ (1...32Bytes)
+#define SIZEDATA    12
 /*----------------------------------------------------------------------------
  VARIABLE GLOBALES
  -----------------------------------------------------------------------------*/
-//Variable that use for save in uSD
-uint8_t dataSentuSD[512];
-//Variable for get data from the ADXL355Z
-uint8_t dataAdxl[63];
-//Address for Nrf RX or TX
-uint8_t rx_addr[5], tx_addr[5];
+// Variable that use for save in uSD
+uint8_t dataSentuSD[512] = {0};
+// Variable for get data from the ADXL355Z
+uint8_t dataAdxl[63] = {0};
+// Address for NRF24L01+ RX and TX
+uint8_t rx_addr[5] = {0xA1, 0xA1, 0xA1, 0xA1, 0xA1}; 
+uint8_t tx_addr[5] = {0xA1, 0xA1, 0xA1, 0xA1, 0xA1}; 
 //Data receive or transmit 
-uint8_t nrfDataRx[14], nrfDataTx[14];
-uint8_t rxRec[12] ;
-uint8_t txEnv[12] ; 
-//Flag to use in the software
-uint8_t buSDState, j, idNodo;
-uint8_t bNrf, bMrx, bInt1, bInituSD, bNrfsync; //bNrfsync variable de sincronizacion
-uint16_t i;
-uint16_t timeMcs;
-uint16_t per;
-uint16_t timeMls;
-uint8_t timeSec;
-uint8_t timeMin;
-uint8_t timeHor;
+uint8_t rxRec[SIZEDATA] = {0} ;
+uint8_t txEnv[SIZEDATA] = {0}; 
+// Flag to use in the software
+uint8_t buSDState = 0; 
+uint8_t idNodo = 0;
+uint8_t bNrf = 0;
+uint8_t bMrx = 1;
+uint8_t bInt1 = 0;
+uint8_t bInituSD = 0; 
+uint8_t bNrfsync = 0;
+uint16_t i = 0;
+uint16_t per = 0;
+// Handling time
+uint8_t timeSec = 0;
+uint8_t timeMin = 0;
+uint8_t timeHor = 0;
  
-unsigned char wuSD;
-//Variable use in DS3234
+unsigned char wuSD = 0;
+// Variable use in DS3234
 ds3234_data_time rtc;
 ds3234_time rtcTime;
 ds3234_time_sync time1Sync, time2Sync, time3Sync, time4Sync; // variables para sincronizacion
-uint32_t sector;
+// Start address sector of uSD
+uint32_t sector = 35000;
 //Variable use in ACS722 sensor current
-uint16_t vAdc;
+uint16_t vAdc = 0;
 
-bool running;
-
-long sum_delay;
-long sum_offset;
-long sm_diff;
-long ms_diff;
-int t1[2];
-int t3[2];
+bool running = true;
+// Variable for use synchronization
+int32_t sum_delay = 0;
+int32_t sum_offset = 0;
+int32_t sm_diff = 0;
+int32_t ms_diff = 0;
+int32_t t1[2] = {0};
+int32_t t3[2] = {0};
 
 int cSync = 0;
 
@@ -56,13 +65,12 @@ int cSync = 0;
  -----------------------------------------------------------------------------*/
 void task(uint8_t );
 void syncClock(void);
-long delayDifSM(int t4[2]);
-long differenceMS(int t1[2]);
-long differenceSM(int t4[2]);
-void convertCharToInt(int out[2]);
-void sentDataFull();
+int32_t differenceMS(int32_t t1[2]);
+int32_t differenceSM(int32_t t4[2]);
+void convertCharToInt(int32_t out[2]);
+void sendDataFull();
 void initVariables(void);
-void getTime1(int in[2]);
+void getTime(int32_t in[2]);
 
 
 #endif

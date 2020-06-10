@@ -126,10 +126,10 @@ uint32_t TMR2_Counter32BitGet(void) {
 void __attribute__((weak)) TMR2_CallBack(void) {
     // Add your custom callback code here
     //Timer 1s
-    timeSec++;
-    timeMcs = 0;
+    //timeSec++;
+    //timeMcs = 0;
     //timeMls = 0;
-    Led_verde_toggle();
+    //Led_verde_toggle();
 }
 
 void TMR2_SetInterruptHandler(void (* InterruptHandler)(void)) {

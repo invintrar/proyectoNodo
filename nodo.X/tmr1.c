@@ -103,11 +103,11 @@ uint16_t TMR1_Counter16BitGet(void) {
 
 void __attribute__((weak)) TMR1_CallBack(void) {
     //Wait 1uS
-    timeMcs++;
-    if (timeMcs == 1000000) {
+    //timeMcs++;
+    //if (timeMcs == 1000000) {
         //timeMls++;
-        timeMcs = 0;
-    }
+        //timeMcs = 0;
+    //}
 
 }
 
