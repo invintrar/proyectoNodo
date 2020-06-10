@@ -1,5 +1,6 @@
 <!-- Images -->
-<img src="https://github.com/invintrar/proyectoNodo/blob/master/micro.jpg" width="200" height="200"><a href="https://vectorfair.com">Vector Design</a>
+<img src="https://github.com/invintrar/proyectoNodo/blob/master/micro.jpg" width="300" height="300">
+<a href="https://vectorfair.com">Vector Design</a>
 
 # proyectoNodo
 Utilizamos el dsPIC33EP256MC202 para realizar la comunicación con una raspberry Pi 3 para la cual se utilizá el moduló NRF24L01+ para la comunicación inalámbrica, 
