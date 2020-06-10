@@ -1,0 +1,6 @@
+# proyectoNodo
+Utilizamos el dsPIC33EP256MC202 para realizar la comunicación con una raspberry Pi 3 para la cual se utilizá el moduló NRF24L01+ para la comunicación inalámbrica, 
+además se utilizá el reloj de tiempo real DS3234, se utiliza el acelerometro ADXL355Z para obtener datos de aceleración dichos datos se guardan en una memoria microSD.
+Toda la programación se realiza en el ide MPLAB X con el compilar XC16.
+
+
