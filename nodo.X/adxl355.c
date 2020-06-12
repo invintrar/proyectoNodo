@@ -20,7 +20,7 @@ void ADXL355_Init() {
     ADXL355_Write_Byte(Range, _2G | INT_ACTIVE_HIGH);
 
     ADXL355_Write_Byte(Sync, INT_SYNC); //internal clock
-    ADXL355_Write_Byte(Filter, _62_5_Hz); //250Hz
+    ADXL355_Write_Byte(Filter, _62_5_Hz|0x10); //250Hz and filter Hig
 
     ADXL355_Write_Byte(INT_MAP, FULL_EN1);
     ADXL355_Write_Byte(FIFO_ENTRIES, STORED_FIFO);

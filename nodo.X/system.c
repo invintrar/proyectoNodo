@@ -5,8 +5,6 @@ void SYSTEM_Initialize(void) {
 
     pines_Conf_Init();
 
-    //SPI2_Init();
-
     INTERRUPT_Initialize();
 
     EXT_INT_Initialize();
@@ -15,34 +13,27 @@ void SYSTEM_Initialize(void) {
     //ADC1_Initialize();
 
     INTERRUPT_GlobalEnable();
+    // Initialization microSD and SPI1(5MHz)
+    //SD_Init();
     
-    /*
-    //Check uSD Inserted
-    if (SD_Detect() == DETECTED) {
-        buSDState = SD_Init();
-    } else {
-        SPI1_Init(FAST);
-    }
-    */
     SPI1_Init(FAST);
+    
+    // Initialization SPI2 (2.5MHz)
+    SPI2_Init();
 
     //Initialize Real clock time
-    //DS3234_Init();
+    DS3234_init();
 
     // Initialize accelerometer
     //ADXL355_Init();
 
     // Initialize module nRF24L01
     RF24L01_Init();
-
-    //TMR1_Initialize();
-
-    //TMR2_Initialize();
-
-    //TMR4_Initialize();
+    
+    // Initialize Timer2 with period 1s
+    TMR2_Initialize();
 
     SYSTEM_CORCONModeOperatingSet(CORCON_MODE_PORVALUES);
-
 }
 
 /**

@@ -22,33 +22,25 @@ typedef struct {
     uint8_t month;
     //Year (0-99)
     uint8_t year;
-} ds3234_data_time;/*
+} ds3234_date_time; /*
                     * Variable Time(Seconds, Minutes, 
                     * Hours, Day of week,
                     * Day of Month,
                     * Month, Year
                     */
 
-typedef struct{
+typedef struct {
     //Seconds(00-59)
     uint8_t seconds;
     //Minutes(00-59)
     uint8_t minutes;
     //Hours(00-23)
     uint8_t hours;
-}ds3234_time;/**
+} ds3234_time; /**
               * Variable for time (Seconds,Minutes, Hours)
               */
 
-typedef struct{ // variable para sincronization
-    //Seconds(00-1000000)
-    uint32_t microseconds;
-    //Seconds(00-59)
-    uint8_t seconds;
-}ds3234_time_sync;
-
-
-typedef struct{
+typedef struct {
     // Alarm 1 Interrupt Enable
     uint8_t A1IE : 1;
     // Alarm 2 Interrupt Enable
@@ -65,7 +57,7 @@ typedef struct{
     uint8_t BBSQW : 1;
     // Enable Oscillator
     uint8_t EOSCC : 1;
-} ds3234_control_register;/*Variables with field of bits structure*/
+} ds3234_control_register; /*Variables with field of bits structure*/
 
 
 #define bcd_to_int(X)  (10*((X) >> 4)) + ((X) & 0x0F)
@@ -88,12 +80,12 @@ typedef struct{
 /* DS3234 Function Prototyping */
 /*****************************************************************************/
 
-void DS3234_Init(void);
+void DS3234_init(void);
 
-void DS3234_readTime(ds3234_data_time*);
+void DS3234_getTime(ds3234_date_time *p);
 
-void DS3234_Time(ds3234_time*);
+void DS3234_time(ds3234_time*);
 
-void DS3234_setTime(ds3234_data_time data_time);
+void DS3234_setTime(ds3234_date_time data_time);
 
 #endif// End DS3234_H

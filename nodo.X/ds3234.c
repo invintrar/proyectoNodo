@@ -4,7 +4,7 @@
 /*****************************************************************************/
 
 /* Configure the DS3234 */
-void DS3234_Init(void) {
+void DS3234_init(void) {
     ds3234_control_register config;
     *((uint8_t *) & config) = 0;
     config.INTCN = 0;
@@ -20,7 +20,7 @@ void DS3234_Init(void) {
 
 }
 
-void DS3234_readTime(ds3234_data_time *p) {
+void DS3234_getTime(ds3234_date_time *p) {
     DS3234_ChepSelect = 0;
     //Pointer at the content of a structure of two form:
     //p->seconds o (*p).seconds
@@ -46,7 +46,7 @@ void DS3234_readTime(ds3234_data_time *p) {
 
 }//End readTime ds3234
 
-void DS3234_Time(ds3234_time *pt) {
+void DS3234_time(ds3234_time *pt) {
     DS3234_ChepSelect = 0;
     //Pointer at the content of a structure of two form:
     //p->seconds o (*p).seconds
@@ -68,7 +68,7 @@ void DS3234_Time(ds3234_time *pt) {
  * @param data_time is a variable structure with seconds(0-59), minutes(0-59), 
  * hours(0-59), day(1:Sunday,2:Monday,...-7),date(0-31), month(1-12),year(0-99) 
  */
-void DS3234_setTime(ds3234_data_time data_time) {
+void DS3234_setTime(ds3234_date_time data_time) {
     //Conversion from int to bcd
     data_time.seconds = int_to_bcd(data_time.seconds);
     data_time.minutes = int_to_bcd(data_time.minutes);

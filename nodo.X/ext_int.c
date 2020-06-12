@@ -23,8 +23,9 @@ void __attribute__((interrupt, no_auto_psv)) _INT0Interrupt(void) {
 }
 
 void __attribute__((weak)) EX_INT1_CallBack(void) {
-    bInt1 =1;
+    bInt1 = 1;
     ADXL355_Read_FIFO_Full();
+    
 }
 
 /**

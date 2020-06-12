@@ -4,12 +4,14 @@
 #ifndef STATEMENT
 #define	STATEMENT
 
-#define TIMES                   500
-#define TO_NSEC(t)          ((t[0] * 1000000000L) + t[1])
+#define TIMES           500
+#define TO_NSEC(t)      ((t[0] * 1000000000L) + t[1])
+//#define CLOCKS_PER_SEC  1
+#define SECS_IN_DAY     (24 * 60 * 60)
 // Define Channel 
-#define CHANNEL     22
+#define CHANNEL         22
 // Define size data NRF24L01+ (1...32Bytes)
-#define SIZEDATA    12
+#define SIZEDATA        12
 /*----------------------------------------------------------------------------
  VARIABLE GLOBALES
  -----------------------------------------------------------------------------*/
@@ -40,9 +42,8 @@ uint8_t timeHor = 0;
  
 unsigned char wuSD = 0;
 // Variable use in DS3234
-ds3234_data_time rtc;
+ds3234_date_time rtc;
 ds3234_time rtcTime;
-ds3234_time_sync time1Sync, time2Sync, time3Sync, time4Sync; // variables para sincronizacion
 // Start address sector of uSD
 uint32_t sector = 35000;
 //Variable use in ACS722 sensor current
@@ -54,10 +55,13 @@ int32_t sum_delay = 0;
 int32_t sum_offset = 0;
 int32_t sm_diff = 0;
 int32_t ms_diff = 0;
+int32_t timeMesure[2] = {0};
 int32_t t1[2] = {0};
 int32_t t3[2] = {0};
 
 int cSync = 0;
+
+int32_t microSec = 0;
 
 
 /*----------------------------------------------------------------------------
@@ -71,6 +75,7 @@ void convertCharToInt(int32_t out[2]);
 void sendDataFull();
 void initVariables(void);
 void getTime(int32_t in[2]);
+void setClock(int32_t in[2]);
 
 
 #endif
