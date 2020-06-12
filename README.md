@@ -1,7 +1,7 @@
 <p align="center">
 <!-- Images -->
-<img src="https://github.com/invintrar/proyectoNodo/blob/master/micro.jpg" width="400" height="400">
-<a href="https://vectorfair.com">Vector Design</a>
+<img src="https://github.com/invintrar/proyectoNodo/blob/master/micro.jpg" width="300" height="300">
+  <a href="https://vectorfair.com">Vector Design</a>
 </p>
 
 # proyectoNodo
