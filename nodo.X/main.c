@@ -44,20 +44,9 @@ int main(void) {
     for (i = 0; i < 5; i++) {
         Led_verde_toggle();
         __delay_ms(100);
-
     }
 
     Led_verde_setHigh();
-    //ADXL355_Write_Byte(POWER_CTL, MEASURING);
-
-    //convertCharToInt(timeMesure);
-    //DS3234_getTime(&timeSent);
-
-    //microSec = TMR2_Counter32BitGet();
-    //TMR2_Counter32BitSet(0);
-    //microSec = TMR2_Counter32BitGet() * 25;// get time in ns
-
-
 
     // while
     while (running) {
@@ -147,12 +136,17 @@ void task(uint8_t opc) {
             //RF24L01_sendData(txEnv, SIZEDATA);
             sendTime();
             break;
-        case 3: // Turn off application
+        case 3:// start test ADXL355Z 
+            ADXL355_Write_Byte(POWER_CTL, MEASURING);
+            TMR1_Counter16BitSet(0);
+            break;
+        case 4:// ed test ADXL355z
+            ADXL355_Write_Byte(POWER_CTL, STANDBY);
+            TMR1_Stop();
+            break;
+        case 5: // Turn off application
             //RF24L01_powerDown();
             running = !running;
-            break;
-        case 4: // test ADXL355Z
-            
             break;
         default:
             break;
@@ -204,7 +198,7 @@ void syncClock() {
             in[1] = in[1] - 1000000000;
             in[0]++;
         }
-        TMR2_Counter32BitSet(in[1]);
+        TMR2_Counter32BitSet(in[1]/25);
         setClock(in);
         // notification synchronization full
         sendTime();

@@ -8,7 +8,10 @@
 #include <xc.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include "rf24l01.h"
 
+extern uint8_t dataAdxl[63];
+extern uint16_t vAdc;
 #ifdef __cplusplus  // Provide C++ Compatibility
 
 extern "C" {

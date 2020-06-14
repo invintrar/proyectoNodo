@@ -45,10 +45,10 @@ static TMR_OBJ tmr1_obj;
 void TMR1_Initialize(void) {
     //TMR1 0; 
     TMR1 = 0x00;
-    //Period = 0.000001 s; Frequency = 40000000 Hz; PR1 39; 
-    PR1 = 0x27;
-    //TCKPS 1:1; TON enabled; TSIDL disabled; TCS FOSC/2; TSYNC disabled; TGATE disabled; 
-    T1CON = 0x8000;
+    //Period = 0.03 s; Frequency = 40000000 Hz; PR1 18749; 
+    PR1 = 0x493D;
+    //TCKPS 1:64; TON enabled; TSIDL disabled; TCS FOSC/2; TSYNC disabled; TGATE disabled; 
+    T1CON = 0x8020;
 
     if (TMR1_InterruptHandler == NULL) {
         TMR1_SetInterruptHandler(&TMR1_CallBack);
@@ -105,9 +105,25 @@ void __attribute__((weak)) TMR1_CallBack(void) {
     //Wait 1uS
     //timeMcs++;
     //if (timeMcs == 1000000) {
-        //timeMls++;
-        //timeMcs = 0;
+    //timeMls++;
+    //timeMcs = 0;
     //}
+    ADC1_SamplingStart();
+    ADC1_SamplingStop();
+    uint8_t txEnv[12] = {0};
+    txEnv[0] = 4;
+    txEnv[1] = dataAdxl[0];
+    txEnv[2] = dataAdxl[1];
+    txEnv[3] = dataAdxl[2];
+    txEnv[4] = dataAdxl[3];
+    txEnv[5] = dataAdxl[4];
+    txEnv[6] = dataAdxl[5];
+    txEnv[7] = dataAdxl[6];
+    txEnv[8] = dataAdxl[7];
+    txEnv[9] = dataAdxl[8];
+    txEnv[10] = vAdc;
+    txEnv[11] = vAdc >> 8;
+    RF24L01_sendData(txEnv, 12);
 
 }
 

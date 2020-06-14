@@ -10,7 +10,7 @@ void SYSTEM_Initialize(void) {
     EXT_INT_Initialize();
 
     //Initialize module ADC1
-    //ADC1_Initialize();
+    ADC1_Initialize();
 
     INTERRUPT_GlobalEnable();
     // Initialization microSD and SPI1(5MHz)
@@ -25,10 +25,13 @@ void SYSTEM_Initialize(void) {
     DS3234_init();
 
     // Initialize accelerometer
-    //ADXL355_Init();
+    ADXL355_Init();
 
     // Initialize module nRF24L01
     RF24L01_Init();
+    
+    // Initialize Timer1 with period 30ms
+    TMR1_Initialize();
     
     // Initialize Timer2 with period 1s
     TMR2_Initialize();
