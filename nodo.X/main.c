@@ -38,16 +38,13 @@ int main(void) {
     //ADC1_SamplingStart();
     //ADC1_SamplingStop();
 
-
     RF24L01_set_mode_RX();
-
+    
     for (i = 0; i < 5; i++) {
         Led_verde_toggle();
         __delay_ms(100);
     }
-
-    Led_verde_setHigh();
-
+    
     // while
     while (running) {
         switch (bNrf) {
@@ -139,10 +136,12 @@ void task(uint8_t opc) {
         case 3:// start test ADXL355Z 
             ADXL355_Write_Byte(POWER_CTL, MEASURING);
             TMR1_Counter16BitSet(0);
+            TMR1_Start();
             break;
         case 4:// ed test ADXL355z
             ADXL355_Write_Byte(POWER_CTL, STANDBY);
             TMR1_Stop();
+            RF24L01_set_mode_RX();
             break;
         case 5: // Turn off application
             //RF24L01_powerDown();

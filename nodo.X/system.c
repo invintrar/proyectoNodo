@@ -32,9 +32,11 @@ void SYSTEM_Initialize(void) {
     
     // Initialize Timer1 with period 30ms
     TMR1_Initialize();
+    TMR1_Stop();
     
     // Initialize Timer2 with period 1s
     TMR2_Initialize();
+    
 
     SYSTEM_CORCONModeOperatingSet(CORCON_MODE_PORVALUES);
 }

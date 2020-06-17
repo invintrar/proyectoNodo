@@ -45,8 +45,8 @@ static TMR_OBJ tmr1_obj;
 void TMR1_Initialize(void) {
     //TMR1 0; 
     TMR1 = 0x00;
-    //Period = 0.03 s; Frequency = 40000000 Hz; PR1 18749; 
-    PR1 = 0x493D;
+    //Period = 0.05 s; Frequency = 40000000 Hz; PR1 31249; 
+    PR1 = 0x7A11;
     //TCKPS 1:64; TON enabled; TSIDL disabled; TCS FOSC/2; TSYNC disabled; TGATE disabled; 
     T1CON = 0x8020;
 
@@ -124,7 +124,6 @@ void __attribute__((weak)) TMR1_CallBack(void) {
     txEnv[10] = vAdc;
     txEnv[11] = vAdc >> 8;
     RF24L01_sendData(txEnv, 12);
-
 }
 
 void TMR1_SetInterruptHandler(void (* InterruptHandler)(void)) {
