@@ -95,3 +95,11 @@ void ADXL355_Read_FIFO_Full() {
     __delay_us(5);
 
 }
+
+void ADXL355_status(){
+    uint8_t value = 0;
+    ADXL355_CS_SetLow();
+    SPI1_Exchange_Byte((Status << 1) | 1);
+    value = SPI1_Exchange_Byte(0x00);
+    ADXL355_CS_SetHigh();
+}

@@ -229,7 +229,7 @@ void RF24L01_set_mode_RX(void) {
     //CE -> High
     RF24L01_CE_SetHigh();
     
-    __delay_us(130);
+    __delay_us(200);
     
 }
 

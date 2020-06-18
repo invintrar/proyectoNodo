@@ -72,7 +72,8 @@ void EX_INT2_CallBack(void);
     INT2 - EX_INT2
 
 */
-
+extern uint8_t bPMaster;
+extern uint8_t contEnv;
 extern uint8_t bNrf;
 extern uint8_t bInt1;
 extern uint8_t rxRec[12];

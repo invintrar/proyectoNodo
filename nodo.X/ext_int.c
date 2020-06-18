@@ -23,9 +23,32 @@ void __attribute__((interrupt, no_auto_psv)) _INT0Interrupt(void) {
 }
 
 void __attribute__((weak)) EX_INT1_CallBack(void) {
-    bInt1 = 1;
+    bInt1 = 0;
     ADXL355_Read_FIFO_Full();
-    
+    Led_verde_toggle();
+    if (bPMaster) {
+        if (contEnv > 15) { 
+            ADC1_SamplingStart();
+            ADC1_SamplingStop();
+            uint8_t env[12] = {0};
+            contEnv = 0;
+            env[0] = 4;
+            env[1] = dataAdxl[0];
+            env[2] = dataAdxl[1];
+            env[3] = dataAdxl[2];
+            env[4] = dataAdxl[3];
+            env[5] = dataAdxl[4];
+            env[6] = dataAdxl[5];
+            env[7] = dataAdxl[6];
+            env[8] = dataAdxl[7];
+            env[9] = dataAdxl[8];
+            env[10] = vAdc;
+            env[11] = vAdc >> 8;
+            //Sent Data for NRF24L01+
+            RF24L01_sendData(env, 12);
+        }
+        contEnv++;
+    }
 }
 
 /**
@@ -43,7 +66,7 @@ void __attribute__((interrupt, no_auto_psv)) _INT1Interrupt(void) {
 void __attribute__((weak)) EX_INT2_CallBack(void) {
     //Return 1:Data Sent, 2:RX_DR, 3:MAX_RT
     bNrf = RF24L01_status();
-    
+
     //DS3234_Time(&rtcTime);
     /*
     if(bNrf == 1){
@@ -57,7 +80,7 @@ void __attribute__((weak)) EX_INT2_CallBack(void) {
     }*/
 
     RF24L01_clear_interrupts();
-    
+
 }
 
 /**

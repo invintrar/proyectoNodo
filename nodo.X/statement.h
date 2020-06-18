@@ -48,7 +48,8 @@ ds3234_time rtcTime;
 uint32_t sector = 35000;
 //Variable use in ACS722 sensor current
 uint16_t vAdc = 0;
-
+uint8_t bPMaster = 0;
+uint8_t contEnv = 0;
 bool running = true;
 // Variable for use synchronization
 int32_t sum_delay = 0;

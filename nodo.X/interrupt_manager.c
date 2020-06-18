@@ -9,13 +9,13 @@
 void INTERRUPT_Initialize(void) {
     //    INT1I: External Interrupt 1
     //    Priority: 3
-    IPC5bits.INT1IP = 4;
+    IPC5bits.INT1IP = 1;
     //    INT2I: External Interrupt 2
     //    Priority: 3
-    IPC7bits.INT2IP = 3;
+    IPC7bits.INT2IP = 1;
     //    ADI: ADC1 Convert Done
     //    Priority: 2
-    IPC3bits.AD1IP = 2;
+    IPC3bits.AD1IP = 1;
     //    TI: Timer 4
     //    Priority: 1
     IPC6bits.T4IP = 1;

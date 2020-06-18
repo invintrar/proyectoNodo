@@ -27,7 +27,6 @@ int main(void) {
     //DS3234_setTime(rtc);
 
     //Turn on ADXL255
-
     //ADXL355_Write_Byte(POWER_CTL, MEASURING);
 
     // Read RTC time
@@ -38,20 +37,22 @@ int main(void) {
     //ADC1_SamplingStart();
     //ADC1_SamplingStop();
 
-    RF24L01_set_mode_RX();
-    
     for (i = 0; i < 5; i++) {
         Led_verde_toggle();
         __delay_ms(100);
     }
-    
+
+    RF24L01_set_mode_RX();
+
+    //ADXL355_Write_Byte(POWER_CTL, MEASURING);
+
     // while
     while (running) {
         switch (bNrf) {
             case 1://Data received
                 bNrf = 0;
                 RF24L01_read_payload(rxRec, SIZEDATA);
-                __delay_ms(4);
+                __delay_ms(2);
                 if (rxRec[0] > 0)
                     task(rxRec[0]);
                 break;
@@ -64,7 +65,6 @@ int main(void) {
                 bNrf = 0;
                 break;
             default:
-
                 break;
         } // end switch
     } // End while
@@ -134,18 +134,18 @@ void task(uint8_t opc) {
             sendTime();
             break;
         case 3:// start test ADXL355Z 
+            bPMaster = 1;
             ADXL355_Write_Byte(POWER_CTL, MEASURING);
-            TMR1_Counter16BitSet(0);
-            TMR1_Start();
+            //txEnv[0] = 4; // Order for 
+            //RF24L01_sendData(txEnv, 12);
             break;
-        case 4:// ed test ADXL355z
+        case 4:// request data
+            break;
+        case 5:
             ADXL355_Write_Byte(POWER_CTL, STANDBY);
-            TMR1_Stop();
-            RF24L01_set_mode_RX();
-            break;
-        case 5: // Turn off application
-            //RF24L01_powerDown();
-            running = !running;
+            //bPMaster = 0;
+            //txEnv[0] = 5;
+            //RF24L01_sendData(txEnv, 12);
             break;
         default:
             break;
@@ -159,7 +159,7 @@ void syncClock() {
             ms_diff = differenceMS(t1);
             getTime(t3);
             // request t4
-            txEnv[0] = 2; 
+            txEnv[0] = 2;
             // send request
             RF24L01_sendData(txEnv, SIZEDATA);
         } else if (rxRec[10] == 2) {
@@ -197,7 +197,7 @@ void syncClock() {
             in[1] = in[1] - 1000000000;
             in[0]++;
         }
-        TMR2_Counter32BitSet(in[1]/25);
+        TMR2_Counter32BitSet(in[1] / 25);
         setClock(in);
         // notification synchronization full
         sendTime();

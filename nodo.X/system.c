@@ -30,9 +30,9 @@ void SYSTEM_Initialize(void) {
     // Initialize module nRF24L01
     RF24L01_Init();
     
-    // Initialize Timer1 with period 30ms
-    TMR1_Initialize();
-    TMR1_Stop();
+    // Initialize Timer1 with period 50ms
+    //TMR1_Initialize();
+    //TMR1_Stop();
     
     // Initialize Timer2 with period 1s
     TMR2_Initialize();
