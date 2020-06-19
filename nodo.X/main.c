@@ -14,57 +14,50 @@
  FUNCTION MAIN
  =============================================================================*/
 int main(void) {
-    // Put all values of the time to cero 
-    (*(uint8_t *) & rtc) = 0x00;
-
+    // Initialization dsPIC32EP256MC202
     SYSTEM_Initialize();
     __delay_ms(250);
 
-    //Setup  RF24L01
-    RF24L01_setup(tx_addr, rx_addr, CHANNEL, SIZEDATA);
-
-    //Set Time of RTC(DS3234)
-    //DS3234_setTime(rtc);
-
-    //Turn on ADXL255
-    //ADXL355_Write_Byte(POWER_CTL, MEASURING);
-
-    // Read RTC time
-    //DS3234_Time(&rtcTime1);
-    //__delay_ms(250);
-
-    // Start measuring
-    //ADC1_SamplingStart();
-    //ADC1_SamplingStop();
-
+    // Signal of Initiation program
     for (i = 0; i < 5; i++) {
         Led_verde_toggle();
         __delay_ms(100);
     }
 
+    //Setup  RF24L01(address and channel y  SIZEDATA in statement.h)
+    RF24L01_setup(tx_addr, rx_addr, CHANNEL, SIZEDATA);
+
+    // Set RF24L01 reception mode
     RF24L01_set_mode_RX();
 
-    //ADXL355_Write_Byte(POWER_CTL, MEASURING);
+    // Start measuring current
+    ADC1_SamplingStart();
+    ADC1_SamplingStop();
 
-    // while
+    // Turn on ADXL355Z
+    ADXL355_Write_Byte(POWER_CTL, MEASURING);
+
+    // while running program
     while (running) {
         switch (bNrf) {
-            case 1://Data received
+            case 1:// Data successfully received
                 bNrf = 0;
                 RF24L01_read_payload(rxRec, SIZEDATA);
-                __delay_ms(2);
+                __delay_ms(3);// delay de 3 ms no cambiar
                 if (rxRec[0] > 0)
-                    task(rxRec[0]);
+                    task(rxRec[0]); // Task to make 
                 break;
-            case 2://Date Sent
+            case 2:// Date successfully sent
                 bNrf = 0;
                 RF24L01_set_mode_RX();
                 break;
-            case 3://MAX_RT
+            case 3:// Maximum number of retransmit (default 2)
                 RF24L01_set_mode_RX();
                 bNrf = 0;
                 break;
-            default:
+            default:// Save data from ADXL355 to MicroSD 
+                if (bSaveData)
+                    saveDataMsd();
                 break;
         } // end switch
     } // End while
@@ -73,44 +66,13 @@ int main(void) {
 }// End main
 
 /**
- * Use for sent data for NRF24L1+
- */
-void sendDataFull() {
-    // Start measuring
-    ADC1_SamplingStart();
-    ADC1_SamplingStop();
-
-    // Read RTC time
-    DS3234_time(&rtcTime);
-
-    // Add data to send
-    //Get Data DS3234
-    txEnv[0] = 4;
-    // put data ACS722
-    txEnv[1] = vAdc;
-    txEnv[2] = vAdc >> 8;
-    // put data ADXL355Z
-    txEnv[3] = dataAdxl[0];
-    txEnv[4] = dataAdxl[1];
-    txEnv[5] = dataAdxl[2];
-    txEnv[6] = dataAdxl[3];
-    txEnv[7] = dataAdxl[4];
-    txEnv[8] = dataAdxl[5];
-    txEnv[9] = dataAdxl[6];
-    txEnv[10] = dataAdxl[7];
-    txEnv[11] = dataAdxl[8];
-    //Sent Data for NRF24L01+
-    RF24L01_sendData(txEnv, SIZEDATA);
-} // end sentDataFull 
-
-/**
- * Send data for synchronization 
+ * Send data when end synchronization 
  */
 void sendTime() {
     // Read RTC time
     ds3234_date_time timeSent;
     DS3234_getTime(&timeSent);
-    txEnv[0] = 3;
+    txEnv[0] = 3; // Option notification for the master end synchronization
     txEnv[1] = timeSent.seconds;
     txEnv[2] = timeSent.minutes;
     txEnv[3] = timeSent.hours;
@@ -129,23 +91,23 @@ void task(uint8_t opc) {
         case 2:// Set Clock
             convertCharToInt(timeMesure);
             setClock(timeMesure);
-            //txEnv[0] = 1;// request t1
-            //RF24L01_sendData(txEnv, SIZEDATA);
-            sendTime();
+            txEnv[0] = 1; // request t1
+            RF24L01_sendData(txEnv, SIZEDATA);
+            //sendTime();
             break;
-        case 3:// start test ADXL355Z 
+        case 3: // For sent data ADXL355 from Node to Master
             bPMaster = 1;
-            ADXL355_Write_Byte(POWER_CTL, MEASURING);
-            //txEnv[0] = 4; // Order for 
-            //RF24L01_sendData(txEnv, 12);
             break;
-        case 4:// request data
+        case 4: // Initiation save data in microSD
+            bMesure = 1;
+            setTimerMesure();
+            txEnv[0] = 6;
+            RF24L01_sendData(txEnv, 12);
             break;
-        case 5:
-            ADXL355_Write_Byte(POWER_CTL, STANDBY);
-            //bPMaster = 0;
-            //txEnv[0] = 5;
-            //RF24L01_sendData(txEnv, 12);
+        case 5: // Stop sent data ADXL355 from Node to Master
+            bPMaster = 0;
+            txEnv[0] = 5; // request notify end 
+            RF24L01_sendData(txEnv, 12);
             break;
         default:
             break;
@@ -197,7 +159,6 @@ void syncClock() {
             in[1] = in[1] - 1000000000;
             in[0]++;
         }
-        TMR2_Counter32BitSet(in[1] / 25);
         setClock(in);
         // notification synchronization full
         sendTime();
@@ -235,31 +196,116 @@ int32_t differenceSM(int32_t t4[2]) {
  * @param out
  */
 void convertCharToInt(int32_t out[2]) {
-    int32_t aux = 0;
-    int32_t aux1 = 0;
-    int32_t aux2 = 0;
-    int32_t aux3 = 0;
+    out[0] = (int32_t) rxRec[4] << 24 | (int32_t) rxRec[3] << 16 | 
+            (int32_t) rxRec[2] << 8 | rxRec[1]; // Seconds
+    out[1] = (int32_t) rxRec[8] << 24 | (int32_t) rxRec[7] << 16 | 
+            (int32_t) rxRec[6] << 8 | rxRec[5]; // Nano Seconds
 
-    aux3 = rxRec[4];
-    aux3 = aux3 << 24;
-    aux2 = rxRec[3];
-    aux2 = aux2 << 16;
-    aux1 = rxRec[2];
-    aux1 = aux1 << 8;
-    aux = rxRec[1];
-    aux = aux3 | aux2 | aux1 | aux;
-    out[0] = aux; // seconds
-
-    aux3 = rxRec[8];
-    aux3 = aux3 << 24;
-    aux2 = rxRec[7];
-    aux2 = aux2 << 16;
-    aux1 = rxRec[6];
-    aux1 = aux1 << 8;
-    aux = rxRec[5];
-    aux = aux3 | aux2 | aux1 | aux;
-    out[1] = aux; //nseconds
 } // end charToInt32
+
+void setClock(int32_t in[2]) {
+    time_t timer;
+    struct tm *newtime;
+
+    if (in[1] > 1000000000) {
+        in[1] = in[1] - 1000000000;
+        in[0]++;
+    }
+    timer = in[0];
+    newtime = gmtime(&timer);
+    ds3234_date_time timeSet;
+    timeSet.seconds = newtime->tm_sec;
+    timeSet.minutes = newtime->tm_min;
+    timeSet.hours = newtime->tm_hour;
+    timeSet.day = (newtime->tm_wday + 1);
+    timeSet.date = newtime->tm_mday;
+    timeSet.month = newtime->tm_mon + 1;
+    timeSet.year = (newtime->tm_year - 100);
+    DS3234_setTime(timeSet);
+    uint32_t aux1 = in[1];
+    uint32_t aux = aux1 / 25; 
+    TMR2_Counter32BitSet(aux);
+}// set clock of raspberry pi
+
+void setTimerMesure() {
+    int32_t timeMaster[2];
+    convertCharToInt(timeMaster);
+    time_t timer;
+    struct tm *newtime;
+    timer = timeMaster[0];
+    newtime = gmtime(&timer);
+    // Use for stop measurement
+    timerMesure.seconds = newtime->tm_sec + rxRec[9];
+    timerMesure.minutes = newtime->tm_min;
+    // Use for initiation measurement after 1 minute
+    timerInitMesure = timerMesure.minutes + 1;
+    if (timerInitMesure > 59)
+        timerInitMesure = timerInitMesure - 59;
+    timerMesure.minutes = timerMesure.minutes + rxRec[10];
+    timerMesure.hours = newtime->tm_hour + rxRec[11];
+    if (timerMesure.seconds > 59) {
+        timerMesure.minutes = timerMesure.minutes + 1;
+        timerMesure.seconds = timerMesure.seconds - 59;
+    }
+    if (timerMesure.minutes > 59) {
+        timerMesure.hours = timerMesure.hours + 1;
+        timerMesure.minutes = timerMesure.minutes - 59;
+    }
+}
+
+void saveDataMsd() {
+    uint8_t j = 0;
+    uint32_t aux = 0;
+    if (bInt1) {
+        //Check uSD 
+        if (SD_Detect() == DETECTED) {
+            if (bInituSD == 1 && buSDState == SUCCESSFUL_INIT) {
+                // Read RTC time
+                ds3234_date_time timeS;
+                aux = TMR2_Counter32BitGet();
+                DS3234_getTime(&timeS);
+                dataSentuSD[0] = idNodo;
+                dataSentuSD[1] = timeS.seconds;
+                dataSentuSD[2] = timeS.minutes;
+                dataSentuSD[3] = timeS.hours;
+                dataSentuSD[4] = timeS.day;
+                dataSentuSD[5] = timeS.date;
+                dataSentuSD[6] = timeS.month;
+                dataSentuSD[7] = timeS.year;
+                dataSentuSD[8] = aux;
+                dataSentuSD[9] = aux >> 8;
+                dataSentuSD[10] = aux >> 16;
+                dataSentuSD[11] = aux >> 24;
+                wuSD = SD_Write_Block(dataSentuSD, sector);
+                if (wuSD == DATA_ACCEPTED) {
+                    sector++;
+                    bInituSD = 0;
+                } // end if
+            }
+            // Sent data to MicroSD
+            if (buSDState == SUCCESSFUL_INIT) {
+                for (j = 0; j < 63; j++) {
+                    dataSentuSD[i] = dataAdxl[j];
+                    if (i < 512) {
+                        i++;
+                    } else {
+                        wuSD = SD_Write_Block(dataSentuSD, sector);
+                        if (wuSD == DATA_ACCEPTED) {
+                            i = 0;
+                            sector++;
+                        }
+                    }
+                }
+                bInt1 = 0;
+            }
+
+        } else {
+            SD_Init();
+        }
+
+    }
+
+}
 
 void getTime(int32_t in[2]) {
     ds3234_date_time timeGet;
@@ -280,20 +326,3 @@ void getTime(int32_t in[2]) {
     // get time of the timer 2
     in[1] = TMR2_Counter32BitGet() * 25; // time in nano seconds
 } // end getTime
-
-void setClock(int32_t in[2]) {
-    time_t timer;
-    struct tm *newtime;
-    timer = in[0];
-    newtime = gmtime(&timer);
-    ds3234_date_time timeSet;
-    timeSet.seconds = newtime->tm_sec;
-    timeSet.minutes = newtime->tm_min;
-    timeSet.hours = newtime->tm_hour;
-    timeSet.day = (newtime->tm_wday + 1);
-    timeSet.date = newtime->tm_mday;
-    timeSet.month = newtime->tm_mon + 1;
-    timeSet.year = (newtime->tm_year - 100);
-    DS3234_setTime(timeSet);
-
-}// set clock of raspberry pi

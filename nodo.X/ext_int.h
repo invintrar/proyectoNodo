@@ -73,12 +73,10 @@ void EX_INT2_CallBack(void);
 
 */
 extern uint8_t bPMaster;
+extern uint8_t bDataAdxl;
 extern uint8_t contEnv;
 extern uint8_t bNrf;
 extern uint8_t bInt1;
-extern uint8_t rxRec[12];
-extern uint8_t bNrfsync; // variable de sincronizacion
-extern ds3234_time rtcTime; // Valor tomna el tiempo del RTC
 
 
 void EXT_INT_Initialize(void);

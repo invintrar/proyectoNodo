@@ -23,11 +23,11 @@ void __attribute__((interrupt, no_auto_psv)) _INT0Interrupt(void) {
 }
 
 void __attribute__((weak)) EX_INT1_CallBack(void) {
-    bInt1 = 0;
+    bInt1 = 1;
     ADXL355_Read_FIFO_Full();
-    Led_verde_toggle();
     if (bPMaster) {
-        if (contEnv > 15) { 
+        Led_verde_toggle();
+        if (contEnv > 15) {
             ADC1_SamplingStart();
             ADC1_SamplingStop();
             uint8_t env[12] = {0};
@@ -66,21 +66,7 @@ void __attribute__((interrupt, no_auto_psv)) _INT1Interrupt(void) {
 void __attribute__((weak)) EX_INT2_CallBack(void) {
     //Return 1:Data Sent, 2:RX_DR, 3:MAX_RT
     bNrf = RF24L01_status();
-
-    //DS3234_Time(&rtcTime);
-    /*
-    if(bNrf == 1){
-        if (bNrfsync == 1) {
-            DS3234_Time(&rtcTime);  // Se obtiene el t2
-            bNrfsync = 2; // se obtiene el t1
-        }
-        RF24L01_read_payload(rxRec, sizeof (rxRec));
-        RF24L01_clear_interrupts();
-        return;
-    }*/
-
     RF24L01_clear_interrupts();
-
 }
 
 /**

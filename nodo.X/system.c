@@ -13,10 +13,13 @@ void SYSTEM_Initialize(void) {
     ADC1_Initialize();
 
     INTERRUPT_GlobalEnable();
-    // Initialization microSD and SPI1(5MHz)
-    //SD_Init();
     
-    SPI1_Init(FAST);
+    // Initialization microSD and SPI1(5MHz)
+    if (SD_Detect() == DETECTED) {
+        buSDState = SD_Init();
+    } else {
+        SPI1_Init(FAST);
+    }
     
     // Initialization SPI2 (2.5MHz)
     SPI2_Init();

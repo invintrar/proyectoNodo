@@ -10,6 +10,13 @@
 #include <stdbool.h>
 
 #include "tmr1.h"
+extern uint8_t bPMaster;
+extern uint8_t bMesure;
+extern uint8_t bSaveData;
+extern uint8_t timeInitMesure;
+extern uint8_t rxRec[12];
+extern ds3234_time timerMesure;
+extern bool running ;
 
 #ifdef __cplusplus  // Provide C++ Compatibility
 

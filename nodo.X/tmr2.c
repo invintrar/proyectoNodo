@@ -123,9 +123,21 @@ uint32_t TMR2_Counter32BitGet(void) {
 
 }
 
+// Interrupt production for timer2 each second
+
 void __attribute__((weak)) TMR2_CallBack(void) {
-    // Add your custom callback code here
-    //Led_verde_toggle();
+    if (bMesure) {
+        if(!bPMaster)
+            Led_verde_toggle();
+        ds3234_time now;
+        DS3234_time(&now);
+        if (now.minutes == timeInitMesure)
+            bSaveData = 1;
+        if (now.hours == timerMesure.hours && now.minutes == timerMesure.minutes && now.seconds == timerMesure.seconds) {
+            bSaveData = 0;
+            running = false;
+        }
+    }
 }
 
 void TMR2_SetInterruptHandler(void (* InterruptHandler)(void)) {
