@@ -123,8 +123,9 @@ uint32_t TMR2_Counter32BitGet(void) {
 
 }
 
-// Interrupt production for timer2 each second
-
+/**
+ * Interrupt production for timer2 each second
+ */
 void __attribute__((weak)) TMR2_CallBack(void) {
     if (bMesure) {
         if(!bPMaster)

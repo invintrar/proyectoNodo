@@ -22,6 +22,10 @@ void __attribute__((interrupt, no_auto_psv)) _INT0Interrupt(void) {
     EX_INT0_InterruptFlagClear();
 }
 
+
+/**
+ * Interrupt for ADXL355Z
+ */
 void __attribute__((weak)) EX_INT1_CallBack(void) {
     bInt1 = 1;
     ADXL355_Read_FIFO_Full();
@@ -63,6 +67,9 @@ void __attribute__((interrupt, no_auto_psv)) _INT1Interrupt(void) {
     EX_INT1_InterruptFlagClear();
 }
 
+/**
+ * Interrupt for NRF24L01+
+ */
 void __attribute__((weak)) EX_INT2_CallBack(void) {
     //Return 1:Data Sent, 2:RX_DR, 3:MAX_RT
     bNrf = RF24L01_status();

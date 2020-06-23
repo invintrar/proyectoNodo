@@ -102,11 +102,12 @@ void task(uint8_t opc) {
             bMesure = 1;
             setTimerMesure();
             txEnv[0] = 6;
+            txEnv[1] = idNodo;
             RF24L01_sendData(txEnv, 12);
             break;
         case 5: // Stop sent data ADXL355 from Node to Master
             bPMaster = 0;
-            txEnv[0] = 5; // request notify end 
+            txEnv[0] = 5; // sent notify end measuring
             RF24L01_sendData(txEnv, 12);
             break;
         default:
