@@ -4,8 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/main.c</file>
+            <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/system.c</file>
+            <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/spi1.c</file>
             <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/tmr2.c</file>
+            <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/sdcard.c</file>
             <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/statement.h</file>
+            <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/ds3234.h</file>
             <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/ext_int.c</file>
         </group>
     </open-files>

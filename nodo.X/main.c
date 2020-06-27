@@ -14,15 +14,23 @@
  FUNCTION MAIN
  =============================================================================*/
 int main(void) {
+    timerInit.hours = 0;
+    timerInit.minutes = 0;
+    timerInit.seconds = 0;
+    timerStop.hours = 0;
+    timerStop.minutes = 0;
+    timerStop.seconds = 0;
     // Initialization dsPIC32EP256MC202
     SYSTEM_Initialize();
     __delay_ms(250);
 
     // Signal of Initiation program
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < 6; i++) {
         Led_verde_toggle();
         __delay_ms(100);
     }
+    i = 0;
+    Led_verde_setHigh();
 
     //Setup  RF24L01(address and channel y  SIZEDATA in statement.h)
     RF24L01_setup(tx_addr, rx_addr, CHANNEL, SIZEDATA);
@@ -43,7 +51,7 @@ int main(void) {
             case 1:// Data successfully received
                 bNrf = 0;
                 RF24L01_read_payload(rxRec, SIZEDATA);
-                __delay_ms(3);// delay de 3 ms no cambiar
+                __delay_ms(3); // delay de 3 ms no cambiar
                 if (rxRec[0] > 0)
                     task(rxRec[0]); // Task to make 
                 break;
@@ -56,32 +64,17 @@ int main(void) {
                 bNrf = 0;
                 break;
             default:// Save data from ADXL355 to MicroSD 
-                if (bSaveData)
+                if (bSaveData) {
                     saveDataMsd();
+                    //saveMicroSd();
+                }
+
                 break;
         } // end switch
     } // End while
 
     return 0;
 }// End main
-
-/**
- * Send data when end synchronization 
- */
-void sendTime() {
-    // Read RTC time
-    ds3234_date_time timeSent;
-    DS3234_getTime(&timeSent);
-    txEnv[0] = 3; // Option notification for the master end synchronization
-    txEnv[1] = timeSent.seconds;
-    txEnv[2] = timeSent.minutes;
-    txEnv[3] = timeSent.hours;
-    txEnv[4] = timeSent.date;
-    txEnv[5] = timeSent.month;
-    txEnv[6] = timeSent.year;
-    txEnv[7] = timeSent.day;
-    RF24L01_sendData(txEnv, SIZEDATA);
-}
 
 void task(uint8_t opc) {
     switch (opc) {
@@ -110,10 +103,90 @@ void task(uint8_t opc) {
             txEnv[0] = 5; // sent notify end measuring
             RF24L01_sendData(txEnv, 12);
             break;
+        case 6:
+            bMesure = 0;
+            running = 0;
         default:
             break;
     } // end switch
 } // end task
+
+void saveDataMsd() {
+    uint16_t j = 0;
+    //uint8_t k = 0;
+    uint32_t aux = 0;
+    if (bDataAdxl) {
+        Led_verde_toggle();
+        bDataAdxl = 0;
+        // Check uSD initiation successful
+        if (buSDState == SUCCESSFUL_INIT) {
+            // First block for save in the uSD
+            if (bInituSD) {
+                // Read RTC time
+                ds3234_date_time timeS;
+                aux = TMR2_Counter32BitGet();
+                DS3234_getTime(&timeS);
+                dataSentuSD[0] = idNodo;
+                dataSentuSD[1] = timeS.seconds;
+                dataSentuSD[2] = timeS.minutes;
+                dataSentuSD[3] = timeS.hours;
+                dataSentuSD[4] = timeS.day;
+                dataSentuSD[5] = timeS.date;
+                dataSentuSD[6] = timeS.month;
+                dataSentuSD[7] = timeS.year;
+                dataSentuSD[8] = aux;
+                dataSentuSD[9] = aux >> 8;
+                dataSentuSD[10] = aux >> 16;
+                dataSentuSD[11] = aux >> 24;
+                for (j = 12; j < 512; j++) {
+                    dataSentuSD[j] = 0x10;
+                }
+                wuSD = SD_Write_Block(dataSentuSD, sector);
+                // Check data save correctly
+                if (wuSD == DATA_ACCEPTED) {
+                    sector++;
+                    bInituSD = 0;
+                } // end data accepted
+            }
+            saveMicroSd();
+            /*
+            for (j = 0; j < 63; j++) {
+                if (i < 504) {
+                    dataSentuSD[i] = dataAdxl[j];
+                    i++;
+                    if (i == 504) {
+                        for (k = 0; k < 8; k++) {
+                            dataSentuSD[i] = 0;
+                            i++;
+                        }
+                        i = 0;
+                        wuSD = SD_Write_Block(dataSentuSD, sector);
+                        // Check data save correctly
+                        if (wuSD == DATA_ACCEPTED) {
+                            sector++;
+                        } // end data accepted
+                    } // end if
+                } //end if
+            } // end for*/
+
+        } else {
+            buSDState = SD_Init();
+            i = 0;
+            bInituSD = 1;
+        }// check initiation microSD
+    } // check exist data ADXL355Z
+} // end saveDataMsd
+
+void saveMicroSd(void) {
+    for (i = 0; i < 512; i++) {
+        dataSentuSD[i] = 0x7A;
+    }
+    wuSD = SD_Write_Block(dataSentuSD, sector);
+    if (wuSD == DATA_ACCEPTED) {
+        Led_verde_toggle();
+        sector++;
+    }
+}
 
 void syncClock() {
     if (cSync < TIMES) {
@@ -197,9 +270,9 @@ int32_t differenceSM(int32_t t4[2]) {
  * @param out
  */
 void convertCharToInt(int32_t out[2]) {
-    out[0] = (int32_t) rxRec[4] << 24 | (int32_t) rxRec[3] << 16 | 
+    out[0] = (int32_t) rxRec[4] << 24 | (int32_t) rxRec[3] << 16 |
             (int32_t) rxRec[2] << 8 | rxRec[1]; // Seconds
-    out[1] = (int32_t) rxRec[8] << 24 | (int32_t) rxRec[7] << 16 | 
+    out[1] = (int32_t) rxRec[8] << 24 | (int32_t) rxRec[7] << 16 |
             (int32_t) rxRec[6] << 8 | rxRec[5]; // Nano Seconds
 
 } // end charToInt32
@@ -224,7 +297,7 @@ void setClock(int32_t in[2]) {
     timeSet.year = (newtime->tm_year - 100);
     DS3234_setTime(timeSet);
     uint32_t aux1 = in[1];
-    uint32_t aux = aux1 / 25; 
+    uint32_t aux = aux1 / 25;
     TMR2_Counter32BitSet(aux);
 }// set clock of raspberry pi
 
@@ -235,77 +308,26 @@ void setTimerMesure() {
     struct tm *newtime;
     timer = timeMaster[0];
     newtime = gmtime(&timer);
-    // Use for stop measurement
-    timerMesure.seconds = newtime->tm_sec + rxRec[9];
-    timerMesure.minutes = newtime->tm_min;
-    // Use for initiation measurement after 1 minute
-    timerInitMesure = timerMesure.minutes + 1;
-    if (timerInitMesure > 59)
-        timerInitMesure = timerInitMesure - 59;
-    timerMesure.minutes = timerMesure.minutes + rxRec[10];
-    timerMesure.hours = newtime->tm_hour + rxRec[11];
-    if (timerMesure.seconds > 59) {
-        timerMesure.minutes = timerMesure.minutes + 1;
-        timerMesure.seconds = timerMesure.seconds - 59;
+    // Use for initiation timer after 1 minute
+    timerInit.hours = newtime->tm_hour;
+    timerInit.minutes = newtime->tm_min + 1;
+    timerInit.seconds = newtime->tm_sec;
+    if (timerInit.minutes > 59) {
+        timerInit.minutes = timerInit.minutes - 59;
+        timerInit.hours = timerInit.hours + 1;
     }
-    if (timerMesure.minutes > 59) {
-        timerMesure.hours = timerMesure.hours + 1;
-        timerMesure.minutes = timerMesure.minutes - 59;
+    // Use for stop timer 
+    timerStop.seconds = newtime->tm_sec + rxRec[9];
+    timerStop.minutes = newtime->tm_min + rxRec[10] + 1;
+    timerStop.hours = newtime->tm_hour + rxRec[11];
+    if (timerStop.seconds > 59) {
+        timerStop.minutes = timerStop.minutes + 1;
+        timerStop.seconds = timerStop.seconds - 59;
     }
-}
-
-void saveDataMsd() {
-    uint8_t j = 0;
-    uint32_t aux = 0;
-    if (bInt1) {
-        //Check uSD 
-        if (SD_Detect() == DETECTED) {
-            if (bInituSD == 1 && buSDState == SUCCESSFUL_INIT) {
-                // Read RTC time
-                ds3234_date_time timeS;
-                aux = TMR2_Counter32BitGet();
-                DS3234_getTime(&timeS);
-                dataSentuSD[0] = idNodo;
-                dataSentuSD[1] = timeS.seconds;
-                dataSentuSD[2] = timeS.minutes;
-                dataSentuSD[3] = timeS.hours;
-                dataSentuSD[4] = timeS.day;
-                dataSentuSD[5] = timeS.date;
-                dataSentuSD[6] = timeS.month;
-                dataSentuSD[7] = timeS.year;
-                dataSentuSD[8] = aux;
-                dataSentuSD[9] = aux >> 8;
-                dataSentuSD[10] = aux >> 16;
-                dataSentuSD[11] = aux >> 24;
-                wuSD = SD_Write_Block(dataSentuSD, sector);
-                if (wuSD == DATA_ACCEPTED) {
-                    sector++;
-                    bInituSD = 0;
-                } // end if
-            }
-            // Sent data to MicroSD
-            if (buSDState == SUCCESSFUL_INIT) {
-                for (j = 0; j < 63; j++) {
-                    dataSentuSD[i] = dataAdxl[j];
-                    if (i < 512) {
-                        i++;
-                    } else {
-                        wuSD = SD_Write_Block(dataSentuSD, sector);
-                        if (wuSD == DATA_ACCEPTED) {
-                            i = 0;
-                            sector++;
-                        }
-                    }
-                }
-                bInt1 = 0;
-            }
-
-        } else {
-            SD_Init();
-        }
-
+    if (timerStop.minutes > 59) {
+        timerStop.hours = timerStop.hours + 1;
+        timerStop.minutes = timerStop.minutes - 59;
     }
-
 }
 
 void getTime(int32_t in[2]) {
@@ -327,3 +349,21 @@ void getTime(int32_t in[2]) {
     // get time of the timer 2
     in[1] = TMR2_Counter32BitGet() * 25; // time in nano seconds
 } // end getTime
+
+/**
+ * Send data when end synchronization 
+ */
+void sendTime() {
+    // Read RTC time
+    ds3234_date_time timeSent;
+    DS3234_getTime(&timeSent);
+    txEnv[0] = 3; // Option notification for the master end synchronization
+    txEnv[1] = timeSent.seconds;
+    txEnv[2] = timeSent.minutes;
+    txEnv[3] = timeSent.hours;
+    txEnv[4] = timeSent.date;
+    txEnv[5] = timeSent.month;
+    txEnv[6] = timeSent.year;
+    txEnv[7] = timeSent.day;
+    RF24L01_sendData(txEnv, SIZEDATA);
+}

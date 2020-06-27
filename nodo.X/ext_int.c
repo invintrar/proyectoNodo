@@ -27,8 +27,8 @@ void __attribute__((interrupt, no_auto_psv)) _INT0Interrupt(void) {
  * Interrupt for ADXL355Z
  */
 void __attribute__((weak)) EX_INT1_CallBack(void) {
-    bInt1 = 1;
-    ADXL355_Read_FIFO_Full();
+    bDataAdxl = 1; // Use for check that data exist 
+    ADXL355_Read_FIFO_Full(); // read data of ADXL355z and save in dataAdxl
     if (bPMaster) {
         Led_verde_toggle();
         if (contEnv > 15) {

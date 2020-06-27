@@ -4,7 +4,10 @@
 #ifndef STATEMENT
 #define	STATEMENT
 
-#define TIMES           100
+#include "ds3234.h"
+
+
+#define TIMES           10
 #define TO_NSEC(t)      ((t[0] * 1000000000L) + t[1])
 //#define CLOCKS_PER_SEC  1
 #define SECS_IN_DAY     (24 * 60 * 60)
@@ -25,37 +28,36 @@ uint8_t tx_addr[5] = {0xA1, 0xA1, 0xA1, 0xA1, 0xA1};
 //Data receive or transmit 
 uint8_t rxRec[SIZEDATA] = {0} ;
 uint8_t txEnv[SIZEDATA] = {0}; 
-// Flag to use in the software
+// Flag to use for monitor initiation uSD
 uint8_t buSDState = 0; 
 // Identifier Node use for notify master
 uint8_t idNodo = 1;
+// flags use for NRF24L01+
 uint8_t bNrf = 0;
-uint8_t bMrx = 1;
-uint8_t bInt1 = 0;
-uint8_t bInituSD = 0; 
-uint8_t bNrfsync = 0;
-uint8_t bInitExt = 0;
+// flag use for write first block in uSD
+uint8_t bInituSD = 1; 
+// flag use for check data ADXL355z
 uint8_t bDataAdxl = 0;
-uint16_t i = 0;
-uint16_t per = 0;
-// Handling time
-uint8_t timeSec = 0;
-uint8_t timeMin = 0;
-uint8_t timeHor = 0;
+// flag use for send data from ADxl355z to station base
 uint8_t bMesure = 0;
- 
+// flag use initiation save data in microSD
+uint8_t bSaveData = 1;
+// Use for send 512 bytes to uSD
+int16_t i = 0;
+// Use for check write successful uSD
 unsigned char wuSD = 0;
-// Variable use in DS3234
-ds3234_date_time rtc;
-ds3234_time rtcTime;
-ds3234_time timerMesure;
-uint8_t timerInitMesure = 0;
+// Use for start and stop timer
+ds3234_time timerStop;
+ds3234_time timerInit;
 // Start address sector of uSD
-uint32_t sector = 35000;
-//Variable use in ACS722 sensor current
+uint32_t sector = 42048;
+//Variable use in ACS722 sensor current for get value current
 uint16_t vAdc = 0;
+// flag use for initiation or stop send data station base
 uint8_t bPMaster = 0;
+// use for after 15 send data Adxl355z
 uint8_t contEnv = 0;
+// use for running program
 bool running = true;
 // Variable for use synchronization
 int32_t sum_delay = 0;
@@ -66,11 +68,8 @@ int32_t timeMesure[2] = {0};
 int32_t t1[2] = {0};
 int32_t t3[2] = {0};
 uint8_t timeInitMesure = 0 ;
-uint8_t bSaveData = 0;// Initiation data in microSD
+// use for counter times for synchronization
 int cSync = 0;
-int32_t microSec = 0;
-
-
 /*----------------------------------------------------------------------------
  FUNCTION PROTOTYPES
  -----------------------------------------------------------------------------*/
@@ -84,7 +83,8 @@ void getTime(int32_t in[2]);
 void setClock(int32_t in[2]);
 void saveDataMsd();
 void setTimerMesure();
-
+void sendTime();
+void saveMicroSd();// save test delete after
 
 #endif
 /*

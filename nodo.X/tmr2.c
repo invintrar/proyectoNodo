@@ -128,13 +128,13 @@ uint32_t TMR2_Counter32BitGet(void) {
  */
 void __attribute__((weak)) TMR2_CallBack(void) {
     if (bMesure) {
-        if(!bPMaster)
+        if(!bPMaster && bSaveData)
             Led_verde_toggle();
         ds3234_time now;
         DS3234_time(&now);
-        if (now.minutes == timeInitMesure)
+        if (timerInit.minutes == now.minutes )
             bSaveData = 1;
-        if (now.hours == timerMesure.hours && now.minutes == timerMesure.minutes && now.seconds == timerMesure.seconds) {
+        if (now.hours == timerStop.hours && now.minutes == timerStop.minutes && now.seconds == timerStop.seconds) {
             bSaveData = 0;
             running = false;
         }

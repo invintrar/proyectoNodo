@@ -13,9 +13,9 @@
 extern uint8_t bPMaster;
 extern uint8_t bMesure;
 extern uint8_t bSaveData;
-extern uint8_t timeInitMesure;
 extern uint8_t rxRec[12];
-extern ds3234_time timerMesure;
+extern ds3234_time timerStop;
+extern ds3234_time timerInit;
 extern bool running ;
 
 #ifdef __cplusplus  // Provide C++ Compatibility

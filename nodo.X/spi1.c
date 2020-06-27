@@ -19,13 +19,13 @@ void SPI1_Init(uint8_t speed) {
     if (speed == FAST) {
         /* 
          * FCY = 40 Mhz
-         * Fosc spi = 40Mhz/(4*2) =5Mhz
-         * MSTEN Master; DISSDO disabled; PPRE 4:1(0b10);SPRE 2:1(0b110)
+         * Fosc spi = 40Mhz/(4*1) =10Mhz
+         * MSTEN Master; DISSDO disabled; PPRE 4:1(0b10);SPRE 1:1(0b111)
          * MODE16 disabled; 
          * SMP Middle; DISSCK disabled; CKP Idle:Low, Active:High; 
          * CKE Active to Idle;
          *  SSEN disabled.*/
-        SPI1CON1 = 0x13A;
+        SPI1CON1 = 0x13E;
     } else {
         /*40MHz / (2*64) =0.3125Mhz = 312.5kHz*/
         SPI1CON1 = 0x138;

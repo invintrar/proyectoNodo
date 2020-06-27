@@ -76,7 +76,7 @@ extern uint8_t bPMaster;
 extern uint8_t bDataAdxl;
 extern uint8_t contEnv;
 extern uint8_t bNrf;
-extern uint8_t bInt1;
+extern uint8_t bDataAdxl;
 
 
 void EXT_INT_Initialize(void);
