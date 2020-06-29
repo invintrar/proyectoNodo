@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=adc1.c adxl355.c ext_int.c interrupt_manager.c main.c osc.c pines_conf.c rf24l01.c sdcard.c spi1.c spi2.c system.c ds3234.c tmr1.c tmr2.c tmr4.c
+SOURCEFILES_QUOTED_IF_SPACED=adc1.c adxl355.c ext_int.c interrupt_manager.c main.c osc.c pines_conf.c rf24l01.c sdcard.c spi1.c spi2.c system.c ds3234.c tmr2.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/adc1.o ${OBJECTDIR}/adxl355.o ${OBJECTDIR}/ext_int.o ${OBJECTDIR}/interrupt_manager.o ${OBJECTDIR}/main.o ${OBJECTDIR}/osc.o ${OBJECTDIR}/pines_conf.o ${OBJECTDIR}/rf24l01.o ${OBJECTDIR}/sdcard.o ${OBJECTDIR}/spi1.o ${OBJECTDIR}/spi2.o ${OBJECTDIR}/system.o ${OBJECTDIR}/ds3234.o ${OBJECTDIR}/tmr1.o ${OBJECTDIR}/tmr2.o ${OBJECTDIR}/tmr4.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/adc1.o.d ${OBJECTDIR}/adxl355.o.d ${OBJECTDIR}/ext_int.o.d ${OBJECTDIR}/interrupt_manager.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/osc.o.d ${OBJECTDIR}/pines_conf.o.d ${OBJECTDIR}/rf24l01.o.d ${OBJECTDIR}/sdcard.o.d ${OBJECTDIR}/spi1.o.d ${OBJECTDIR}/spi2.o.d ${OBJECTDIR}/system.o.d ${OBJECTDIR}/ds3234.o.d ${OBJECTDIR}/tmr1.o.d ${OBJECTDIR}/tmr2.o.d ${OBJECTDIR}/tmr4.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/adc1.o ${OBJECTDIR}/adxl355.o ${OBJECTDIR}/ext_int.o ${OBJECTDIR}/interrupt_manager.o ${OBJECTDIR}/main.o ${OBJECTDIR}/osc.o ${OBJECTDIR}/pines_conf.o ${OBJECTDIR}/rf24l01.o ${OBJECTDIR}/sdcard.o ${OBJECTDIR}/spi1.o ${OBJECTDIR}/spi2.o ${OBJECTDIR}/system.o ${OBJECTDIR}/ds3234.o ${OBJECTDIR}/tmr2.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/adc1.o.d ${OBJECTDIR}/adxl355.o.d ${OBJECTDIR}/ext_int.o.d ${OBJECTDIR}/interrupt_manager.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/osc.o.d ${OBJECTDIR}/pines_conf.o.d ${OBJECTDIR}/rf24l01.o.d ${OBJECTDIR}/sdcard.o.d ${OBJECTDIR}/spi1.o.d ${OBJECTDIR}/spi2.o.d ${OBJECTDIR}/system.o.d ${OBJECTDIR}/ds3234.o.d ${OBJECTDIR}/tmr2.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/adc1.o ${OBJECTDIR}/adxl355.o ${OBJECTDIR}/ext_int.o ${OBJECTDIR}/interrupt_manager.o ${OBJECTDIR}/main.o ${OBJECTDIR}/osc.o ${OBJECTDIR}/pines_conf.o ${OBJECTDIR}/rf24l01.o ${OBJECTDIR}/sdcard.o ${OBJECTDIR}/spi1.o ${OBJECTDIR}/spi2.o ${OBJECTDIR}/system.o ${OBJECTDIR}/ds3234.o ${OBJECTDIR}/tmr1.o ${OBJECTDIR}/tmr2.o ${OBJECTDIR}/tmr4.o
+OBJECTFILES=${OBJECTDIR}/adc1.o ${OBJECTDIR}/adxl355.o ${OBJECTDIR}/ext_int.o ${OBJECTDIR}/interrupt_manager.o ${OBJECTDIR}/main.o ${OBJECTDIR}/osc.o ${OBJECTDIR}/pines_conf.o ${OBJECTDIR}/rf24l01.o ${OBJECTDIR}/sdcard.o ${OBJECTDIR}/spi1.o ${OBJECTDIR}/spi2.o ${OBJECTDIR}/system.o ${OBJECTDIR}/ds3234.o ${OBJECTDIR}/tmr2.o
 
 # Source Files
-SOURCEFILES=adc1.c adxl355.c ext_int.c interrupt_manager.c main.c osc.c pines_conf.c rf24l01.c sdcard.c spi1.c spi2.c system.c ds3234.c tmr1.c tmr2.c tmr4.c
+SOURCEFILES=adc1.c adxl355.c ext_int.c interrupt_manager.c main.c osc.c pines_conf.c rf24l01.c sdcard.c spi1.c spi2.c system.c ds3234.c tmr2.c
 
 
 
@@ -186,26 +186,12 @@ ${OBJECTDIR}/ds3234.o: ds3234.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ds3234.c  -o ${OBJECTDIR}/ds3234.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/ds3234.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp=${DFP_DIR}/xc16
 	@${FIXDEPS} "${OBJECTDIR}/ds3234.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
-${OBJECTDIR}/tmr1.o: tmr1.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/tmr1.o.d 
-	@${RM} ${OBJECTDIR}/tmr1.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  tmr1.c  -o ${OBJECTDIR}/tmr1.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/tmr1.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp=${DFP_DIR}/xc16
-	@${FIXDEPS} "${OBJECTDIR}/tmr1.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
 ${OBJECTDIR}/tmr2.o: tmr2.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/tmr2.o.d 
 	@${RM} ${OBJECTDIR}/tmr2.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  tmr2.c  -o ${OBJECTDIR}/tmr2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/tmr2.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp=${DFP_DIR}/xc16
 	@${FIXDEPS} "${OBJECTDIR}/tmr2.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
-${OBJECTDIR}/tmr4.o: tmr4.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/tmr4.o.d 
-	@${RM} ${OBJECTDIR}/tmr4.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  tmr4.c  -o ${OBJECTDIR}/tmr4.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/tmr4.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp=${DFP_DIR}/xc16
-	@${FIXDEPS} "${OBJECTDIR}/tmr4.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 else
 ${OBJECTDIR}/adc1.o: adc1.c  nbproject/Makefile-${CND_CONF}.mk
@@ -299,26 +285,12 @@ ${OBJECTDIR}/ds3234.o: ds3234.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ds3234.c  -o ${OBJECTDIR}/ds3234.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/ds3234.o.d"      -mno-eds-warn  -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp=${DFP_DIR}/xc16
 	@${FIXDEPS} "${OBJECTDIR}/ds3234.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
-${OBJECTDIR}/tmr1.o: tmr1.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/tmr1.o.d 
-	@${RM} ${OBJECTDIR}/tmr1.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  tmr1.c  -o ${OBJECTDIR}/tmr1.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/tmr1.o.d"      -mno-eds-warn  -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp=${DFP_DIR}/xc16
-	@${FIXDEPS} "${OBJECTDIR}/tmr1.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
 ${OBJECTDIR}/tmr2.o: tmr2.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/tmr2.o.d 
 	@${RM} ${OBJECTDIR}/tmr2.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  tmr2.c  -o ${OBJECTDIR}/tmr2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/tmr2.o.d"      -mno-eds-warn  -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp=${DFP_DIR}/xc16
 	@${FIXDEPS} "${OBJECTDIR}/tmr2.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
-${OBJECTDIR}/tmr4.o: tmr4.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/tmr4.o.d 
-	@${RM} ${OBJECTDIR}/tmr4.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  tmr4.c  -o ${OBJECTDIR}/tmr4.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/tmr4.o.d"      -mno-eds-warn  -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp=${DFP_DIR}/xc16
-	@${FIXDEPS} "${OBJECTDIR}/tmr4.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 endif
 

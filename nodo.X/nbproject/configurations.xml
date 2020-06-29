@@ -17,10 +17,8 @@
       <itemPath>spi2.h</itemPath>
       <itemPath>system.h</itemPath>
       <itemPath>ds3234.h</itemPath>
-      <itemPath>tmr1.h</itemPath>
       <itemPath>system_types.h</itemPath>
       <itemPath>tmr2.h</itemPath>
-      <itemPath>tmr4.h</itemPath>
       <itemPath>statement.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
@@ -43,9 +41,7 @@
       <itemPath>spi2.c</itemPath>
       <itemPath>system.c</itemPath>
       <itemPath>ds3234.c</itemPath>
-      <itemPath>tmr1.c</itemPath>
       <itemPath>tmr2.c</itemPath>
-      <itemPath>tmr4.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
