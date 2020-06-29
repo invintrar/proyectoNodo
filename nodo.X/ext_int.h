@@ -6,7 +6,8 @@
 */
 #include "adxl355.h"
 #include <p33EP256MC202.h>
-#include "ds3234.h"
+#include "adc1.h"
+#include "sdcard.h"
 
 // Provide C++ Compatibility
 #ifdef __cplusplus  
@@ -72,11 +73,18 @@ void EX_INT2_CallBack(void);
     INT2 - EX_INT2
 
 */
+
+
 extern uint8_t bPMaster;
 extern uint8_t bDataAdxl;
 extern uint8_t contEnv;
 extern uint8_t bNrf;
-extern uint8_t bDataAdxl;
+extern uint8_t bSaveData;
+extern int countUsd;
+extern uint32_t sector;
+extern uint8_t bInituSD; 
+extern uint8_t dataSentuSD[];
+extern uint8_t idNodo;
 
 
 void EXT_INT_Initialize(void);

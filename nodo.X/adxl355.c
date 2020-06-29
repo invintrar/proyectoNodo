@@ -84,12 +84,12 @@ void ADXL355_Read_FIFO() {
     }
 }
 
-void ADXL355_Read_FIFO_Full() {
-    int i;
+void ADXL355_Read_FIFO_Full(uint8_t getData[]) {
+    uint8_t i;
     ADXL355_CS_SetLow();
     SPI1_Exchange_Byte((FIFO_DATA << 1) | 1);
     for (i = 0; i < 63; i++) {
-        dataAdxl[i] = SPI1_Exchange_Byte(0x00);
+        getData[i] = SPI1_Exchange_Byte(0x00);
     }
     ADXL355_CS_SetHigh();
     __delay_us(5);

@@ -130,7 +130,6 @@
  VARIABLE DECLARATIONS
  -----------------------------------------------------------------------------*/
 extern int dataBuffer[3];
-extern uint8_t dataAdxl[63];
 
 /*----------------------------------------------------------------------------
  FUNCTION PROTOTYPES
@@ -158,7 +157,7 @@ unsigned char ADXL355_Read_Byte(unsigned char);
 
 void ADXL355_Read_FIFO();
 
-void ADXL355_Read_FIFO_Full();
+void ADXL355_Read_FIFO_Full(uint8_t getData[]);
 
 void ADXL355_status();
 

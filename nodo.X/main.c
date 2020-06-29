@@ -14,6 +14,7 @@
  FUNCTION MAIN
  =============================================================================*/
 int main(void) {
+    uint8_t i = 0;
     timerInit.hours = 0;
     timerInit.minutes = 0;
     timerInit.seconds = 0;
@@ -24,15 +25,7 @@ int main(void) {
     SYSTEM_Initialize();
     __delay_ms(250);
 
-    // Signal of Initiation program
-    for (i = 0; i < 6; i++) {
-        Led_verde_toggle();
-        __delay_ms(100);
-    }
-    i = 0;
-    Led_verde_setHigh();
-
-    //Setup  RF24L01(address and channel y  SIZEDATA in statement.h)
+    // Setup  RF24L01(address and channel y  SIZEDATA in statement.h)
     RF24L01_setup(tx_addr, rx_addr, CHANNEL, SIZEDATA);
 
     // Set RF24L01 reception mode
@@ -44,6 +37,12 @@ int main(void) {
 
     // Turn on ADXL355Z
     ADXL355_Write_Byte(POWER_CTL, MEASURING);
+
+    // Signal of Initiation program
+    for (i = 0; i < 6; i++) {
+        Led_verde_toggle();
+        __delay_ms(100);
+    }
 
     // while running program
     while (running) {
@@ -63,18 +62,14 @@ int main(void) {
                 RF24L01_set_mode_RX();
                 bNrf = 0;
                 break;
-            default:// Save data from ADXL355 to MicroSD 
-                if (bSaveData) {
-                    saveDataMsd();
-                    //saveMicroSd();
-                }
-
+            default:
                 break;
         } // end switch
     } // End while
 
     return 0;
 }// End main
+
 
 void task(uint8_t opc) {
     switch (opc) {
@@ -110,83 +105,6 @@ void task(uint8_t opc) {
             break;
     } // end switch
 } // end task
-
-void saveDataMsd() {
-    uint16_t j = 0;
-    //uint8_t k = 0;
-    uint32_t aux = 0;
-    if (bDataAdxl) {
-        Led_verde_toggle();
-        bDataAdxl = 0;
-        // Check uSD initiation successful
-        if (buSDState == SUCCESSFUL_INIT) {
-            // First block for save in the uSD
-            if (bInituSD) {
-                // Read RTC time
-                ds3234_date_time timeS;
-                aux = TMR2_Counter32BitGet();
-                DS3234_getTime(&timeS);
-                dataSentuSD[0] = idNodo;
-                dataSentuSD[1] = timeS.seconds;
-                dataSentuSD[2] = timeS.minutes;
-                dataSentuSD[3] = timeS.hours;
-                dataSentuSD[4] = timeS.day;
-                dataSentuSD[5] = timeS.date;
-                dataSentuSD[6] = timeS.month;
-                dataSentuSD[7] = timeS.year;
-                dataSentuSD[8] = aux;
-                dataSentuSD[9] = aux >> 8;
-                dataSentuSD[10] = aux >> 16;
-                dataSentuSD[11] = aux >> 24;
-                for (j = 12; j < 512; j++) {
-                    dataSentuSD[j] = 0x10;
-                }
-                wuSD = SD_Write_Block(dataSentuSD, sector);
-                // Check data save correctly
-                if (wuSD == DATA_ACCEPTED) {
-                    sector++;
-                    bInituSD = 0;
-                } // end data accepted
-            }
-            saveMicroSd();
-            /*
-            for (j = 0; j < 63; j++) {
-                if (i < 504) {
-                    dataSentuSD[i] = dataAdxl[j];
-                    i++;
-                    if (i == 504) {
-                        for (k = 0; k < 8; k++) {
-                            dataSentuSD[i] = 0;
-                            i++;
-                        }
-                        i = 0;
-                        wuSD = SD_Write_Block(dataSentuSD, sector);
-                        // Check data save correctly
-                        if (wuSD == DATA_ACCEPTED) {
-                            sector++;
-                        } // end data accepted
-                    } // end if
-                } //end if
-            } // end for*/
-
-        } else {
-            buSDState = SD_Init();
-            i = 0;
-            bInituSD = 1;
-        }// check initiation microSD
-    } // check exist data ADXL355Z
-} // end saveDataMsd
-
-void saveMicroSd(void) {
-    for (i = 0; i < 512; i++) {
-        dataSentuSD[i] = 0x7A;
-    }
-    wuSD = SD_Write_Block(dataSentuSD, sector);
-    if (wuSD == DATA_ACCEPTED) {
-        Led_verde_toggle();
-        sector++;
-    }
-}
 
 void syncClock() {
     if (cSync < TIMES) {

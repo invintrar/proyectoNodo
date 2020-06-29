@@ -3,7 +3,6 @@
 /* SD Card Functions */
 
 /*****************************************************************************/
-uint8_t ccs;
 
 unsigned char SD_Init(void) {
     // Local variables required

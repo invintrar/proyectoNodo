@@ -108,22 +108,6 @@ void __attribute__((weak)) TMR1_CallBack(void) {
     //timeMls++;
     //timeMcs = 0;
     //}
-    ADC1_SamplingStart();
-    ADC1_SamplingStop();
-    uint8_t txEnv[12] = {0};
-    txEnv[0] = 4;
-    txEnv[1] = dataAdxl[0];
-    txEnv[2] = dataAdxl[1];
-    txEnv[3] = dataAdxl[2];
-    txEnv[4] = dataAdxl[3];
-    txEnv[5] = dataAdxl[4];
-    txEnv[6] = dataAdxl[5];
-    txEnv[7] = dataAdxl[6];
-    txEnv[8] = dataAdxl[7];
-    txEnv[9] = dataAdxl[8];
-    txEnv[10] = vAdc;
-    txEnv[11] = vAdc >> 8;
-    RF24L01_sendData(txEnv, 12);
 }
 
 void TMR1_SetInterruptHandler(void (* InterruptHandler)(void)) {

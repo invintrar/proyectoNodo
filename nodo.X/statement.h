@@ -21,7 +21,7 @@
 // Variable that use for save in uSD
 uint8_t dataSentuSD[512] = {0};
 // Variable for get data from the ADXL355Z
-uint8_t dataAdxl[63] = {0};
+//uint8_t dataAdxl[63] = {0};
 // Address for NRF24L01+ RX and TX change for different node
 uint8_t rx_addr[5] = {0xA1, 0xA1, 0xA1, 0xA1, 0xA1}; 
 uint8_t tx_addr[5] = {0xA1, 0xA1, 0xA1, 0xA1, 0xA1}; 
@@ -43,9 +43,9 @@ uint8_t bMesure = 0;
 // flag use initiation save data in microSD
 uint8_t bSaveData = 1;
 // Use for send 512 bytes to uSD
-int16_t i = 0;
-// Use for check write successful uSD
-unsigned char wuSD = 0;
+int countUsd = 0;
+// Use for library micro SD check that is SSC
+uint8_t ccs = 0; 
 // Use for start and stop timer
 ds3234_time timerStop;
 ds3234_time timerInit;
