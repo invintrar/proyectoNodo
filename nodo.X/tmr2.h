@@ -8,8 +8,8 @@
 #include <xc.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include "ds3234.h"
 
-#include "tmr1.h"
 extern uint8_t bPMaster;
 extern uint8_t bMesure;
 extern uint8_t bSaveData;

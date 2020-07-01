@@ -814,7 +814,7 @@ __FOSCSEL
 
 __FGS             0x02affa          0x2
  *(__FGS.sec*)
- __FGS.sec        0x02affa          0x2 /CW/_FGS(å9`å9__FGS.sec
+ __FGS.sec        0x02affa          0x2 /CW/_FGS8:p:__FGS.sec
                   0x02affa                  __FGS.sec
 
 __FUID0
@@ -867,22 +867,22 @@ __FUID3
  .debug_abbrev    0x000e78         0xe4 build/default/production/ds3234.o
  .debug_abbrev    0x000f5c        0x1b4 build/default/production/tmr2.o
 
-.debug_line       0x000000       0x1524
+.debug_line       0x000000       0x151a
  *(.debug_line)
  .debug_line      0x000000        0x147 build/default/production/adc1.o
  .debug_line      0x000147        0x16f build/default/production/adxl355.o
- .debug_line      0x0002b6        0x1e1 build/default/production/ext_int.o
- .debug_line      0x000497        0x12f build/default/production/interrupt_manager.o
- .debug_line      0x0005c6        0x247 build/default/production/main.o
- .debug_line      0x00080d        0x123 build/default/production/osc.o
- .debug_line      0x000930        0x138 build/default/production/pines_conf.o
- .debug_line      0x000a68        0x1b5 build/default/production/rf24l01.o
- .debug_line      0x000c1d        0x21c build/default/production/sdcard.o
- .debug_line      0x000e39        0x12e build/default/production/spi1.o
- .debug_line      0x000f67        0x12b build/default/production/spi2.o
- .debug_line      0x001092        0x17a build/default/production/system.o
- .debug_line      0x00120c        0x17b build/default/production/ds3234.o
- .debug_line      0x001387        0x19d build/default/production/tmr2.o
+ .debug_line      0x0002b6        0x1d7 build/default/production/ext_int.o
+ .debug_line      0x00048d        0x12f build/default/production/interrupt_manager.o
+ .debug_line      0x0005bc        0x247 build/default/production/main.o
+ .debug_line      0x000803        0x123 build/default/production/osc.o
+ .debug_line      0x000926        0x138 build/default/production/pines_conf.o
+ .debug_line      0x000a5e        0x1b5 build/default/production/rf24l01.o
+ .debug_line      0x000c13        0x21c build/default/production/sdcard.o
+ .debug_line      0x000e2f        0x12e build/default/production/spi1.o
+ .debug_line      0x000f5d        0x12b build/default/production/spi2.o
+ .debug_line      0x001088        0x17a build/default/production/system.o
+ .debug_line      0x001202        0x17b build/default/production/ds3234.o
+ .debug_line      0x00137d        0x19d build/default/production/tmr2.o
 
 .debug_frame      0x000000        0xb5a
  *(.debug_frame)
@@ -2083,7 +2083,7 @@ LOAD c:/program files (x86)/microchip/xc16/v1.41/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files (x86)/microchip/xc16/v1.41/bin/bin/../../lib\liblega-c-elf.a
 END GROUP
 OUTPUT(dist/default/production/nodo.X.production.elf elf32-pic30)
-LOAD /CW/_FGS(å9`å9__FGS.sec
+LOAD /CW/_FGS8:p:__FGS.sec
 LOAD jump_table
 LOAD default_isr
 LOAD data_init

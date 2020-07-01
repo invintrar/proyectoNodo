@@ -6,8 +6,11 @@
             <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/main.c</file>
             <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/statement.h</file>
             <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/ext_int.c</file>
-            <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/ext_int.h</file>
-            <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/tmr1.c</file>
+            <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/sdcard.c</file>
+            <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/system.c</file>
+            <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/pines_conf.c</file>
+            <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/system.h</file>
+            <file>file:/C:/Users/Darwin/Documents/GitHub/proyectoNodo/nodo.X/tmr2.h</file>
         </group>
     </open-files>
 </project-private>
