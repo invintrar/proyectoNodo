@@ -159,6 +159,8 @@ void ADXL355_Read_FIFO();
 
 void ADXL355_Read_FIFO_Full(uint8_t getData[]);
 
-void ADXL355_status();
+uint8_t ADXL355_Status();
+
+void ADXL355_Power_On();
 
 #endif

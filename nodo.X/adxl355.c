@@ -7,20 +7,21 @@
  VARIABLE DECLARATIONS
  -----------------------------------------------------------------------------*/
 int dataBuffer[];
+
 /*----------------------------------------------------------------------------
  FUNCTION PROTOTYPES
  -----------------------------------------------------------------------------*/
 
 void ADXL355_Init() {
     //Reset the device
-    ADXL355_Write_Byte(Reset, 0x52); 
-    __delay_ms(10);
-    
+    ADXL355_Write_Byte(Reset, 0x52);
+    __delay_ms(100);
+
     ADXL355_Write_Byte(POWER_CTL, TEMP_OFF | STANDBY);
     ADXL355_Write_Byte(Range, _2G | INT_ACTIVE_HIGH);
 
     ADXL355_Write_Byte(Sync, INT_SYNC); //internal clock
-    ADXL355_Write_Byte(Filter, _62_5_Hz|0x10); //250Hz and filter Hig
+    ADXL355_Write_Byte(Filter, _62_5_Hz); //250Hz and filter Hig
 
     ADXL355_Write_Byte(INT_MAP, FULL_EN1);
     ADXL355_Write_Byte(FIFO_ENTRIES, STORED_FIFO);
@@ -37,6 +38,10 @@ void ADXL355_Write_Byte(char address, char data) {
     SPI1_Exchange_Byte(data);
     ADXL355_CS_SetHigh();
 
+}
+
+void ADXL355_Power_On() {
+    ADXL355_Write_Byte(POWER_CTL, MEASURING);
 }
 
 unsigned char ADXL355_Read_Byte(unsigned char address) {
@@ -77,7 +82,7 @@ void ADXL355_Read_FIFO() {
 
         if (cempty == 0) {//El buffer está lleno
             dataBuffer[z] = ((dataByte[z * 3] << 8) | (dataByte[z * 3 + 1]));
-        }else{//El buffer está vacio
+        } else {//El buffer está vacio
             dataBuffer[z] = 0x00;
         }
 
@@ -96,10 +101,13 @@ void ADXL355_Read_FIFO_Full(uint8_t getData[]) {
 
 }
 
-void ADXL355_status(){
+uint8_t ADXL355_Status() {
     uint8_t value = 0;
     ADXL355_CS_SetLow();
     SPI1_Exchange_Byte((Status << 1) | 1);
     value = SPI1_Exchange_Byte(0x00);
     ADXL355_CS_SetHigh();
+    
+    
+    return value;
 }

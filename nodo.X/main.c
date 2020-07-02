@@ -23,7 +23,7 @@ int main(void) {
     timerStop.seconds = 0;
     // Initialization dsPIC32EP256MC202
     SYSTEM_Initialize();
-    __delay_ms(250);
+    __delay_ms(100);
 
     // Setup  RF24L01(address and channel y  SIZEDATA in statement.h)
     RF24L01_setup(tx_addr, rx_addr, CHANNEL, SIZEDATA);
@@ -35,14 +35,16 @@ int main(void) {
     ADC1_SamplingStart();
     ADC1_SamplingStop();
 
-    // Turn on ADXL355Z
-    ADXL355_Write_Byte(POWER_CTL, MEASURING);
-
     // Signal of Initiation program
     for (i = 0; i < 6; i++) {
         Led_verde_toggle();
-        __delay_ms(100);
+        __delay_ms(50);
     }
+
+    // Turn on ADXL355Z
+    ADXL355_Power_On();
+    TMR2_Counter32BitSet(0x00);
+
 
     // while running program
     while (running) {
@@ -63,6 +65,7 @@ int main(void) {
                 bNrf = 0;
                 break;
             default:
+                saveMicroSd();
                 break;
         } // end switch
     } // End while
@@ -70,6 +73,70 @@ int main(void) {
     return 0;
 }// End main
 
+void saveMicroSd() {
+    int32_t aux = 0;
+    uint8_t j = 0;
+    uint8_t k = 0;
+    uint8_t bData = 0;
+    if (bDataAdxl) {
+        bDataAdxl = 0;
+        if (bInituSD) {
+            // Read RTC time
+            ds3234_date_time timeS;
+            aux = TMR2_Counter32BitGet();
+            DS3234_getTime(&timeS);
+            dataSentuSD[0] = idNodo;
+            dataSentuSD[1] = timeS.seconds;
+            dataSentuSD[2] = timeS.minutes;
+            dataSentuSD[3] = timeS.hours;
+            dataSentuSD[4] = timeS.day;
+            dataSentuSD[5] = timeS.date;
+            dataSentuSD[6] = timeS.month;
+            dataSentuSD[7] = timeS.year;
+            dataSentuSD[8] = aux;
+            dataSentuSD[9] = aux >> 8;
+            dataSentuSD[10] = aux >> 16;
+            dataSentuSD[11] = aux >> 24;
+            bData = SD_Write_Block(dataSentuSD, sector);
+            while (1) {
+                if (bData == DATA_ACCEPTED) {
+                    Led_verde_toggle();
+                    bInituSD = 0;
+                    sector++;
+                    countUsd = 0;
+                    break;
+                } else {
+                    bData = SD_Write_Block(dataSentuSD, sector);
+                }
+            }
+
+        }
+        for (j = 0; j < 63; j++) {
+            dataSentuSD[countUsd] = dataAdxl[j];
+            countUsd++;
+            if (countUsd >= 504) {
+                for (k = 0; k < 8; k++) {
+                    dataSentuSD[countUsd] = 0x53;
+                    countUsd++;
+                }
+                countUsd = 0;
+
+                if (sector > 30224380)
+                    break;
+                bData = SD_Write_Block(dataSentuSD, sector);
+                while (1) {
+                    if (bData == DATA_ACCEPTED) {
+                        Led_verde_toggle();
+                        sector++;
+                        break;
+                    } else {
+                        bData = SD_Write_Block(dataSentuSD, sector);
+                    }
+                }
+            }
+        }
+    }// end if check data Adxl355
+} // end saveMicroSd
 
 void task(uint8_t opc) {
     switch (opc) {

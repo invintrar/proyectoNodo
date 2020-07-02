@@ -84,6 +84,7 @@ extern int countUsd;
 extern uint32_t sector;
 extern uint8_t bInituSD; 
 extern uint8_t dataSentuSD[];
+extern uint8_t dataAdxl[];
 extern uint8_t idNodo;
 
 

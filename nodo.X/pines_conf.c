@@ -30,7 +30,7 @@ void pines_Conf_Init() {
      * Setting the GPIO Direction SFR(s)
      **************************************************************************/
     TRISA = 0x001D;
-    TRISB = 0x1218;
+    TRISB = 0x1219;
 
     /**************************************************************************
      * Setting the Weak Pull Up and Weak Pull Down SFR(s)

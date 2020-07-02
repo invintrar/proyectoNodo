@@ -13,14 +13,19 @@ void SYSTEM_Initialize(void) {
     ADC1_Initialize();
 
     INTERRUPT_GlobalEnable();
-    
+
     // Initialization microSD and SPI1(5MHz)
-    if (SD_Detect() == DETECTED) {
-        buSDState = SD_Init();
-    } else {
-        SPI1_Init(FAST);
+    while (1) {
+        if (SD_Detect() == DETECTED) {
+            buSDState = SD_Init();
+            if (buSDState == SUCCESSFUL_INIT) {
+                break;
+            } else {
+                buSDState = SD_Init();
+            }
+        }
     }
-    
+
     // Initialization SPI2 (2.5MHz)
     SPI2_Init();
 
@@ -32,14 +37,9 @@ void SYSTEM_Initialize(void) {
 
     // Initialize module nRF24L01
     RF24L01_Init();
-    
-    // Initialize Timer1 with period 50ms
-    //TMR1_Initialize();
-    //TMR1_Stop();
-    
+
     // Initialize Timer2 with period 1s
     TMR2_Initialize();
-    
 
     SYSTEM_CORCONModeOperatingSet(CORCON_MODE_PORVALUES);
 }

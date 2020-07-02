@@ -26,10 +26,7 @@ void __attribute__((interrupt, no_auto_psv)) _INT0Interrupt(void) {
  * Interrupt for ADXL355Z
  */
 void __attribute__((weak)) EX_INT1_CallBack(void) {
-    int32_t aux = 0;
-    uint8_t j = 0;
-    uint8_t k = 0;
-    uint8_t dataAdxl[63] = {0};
+    bDataAdxl = 1;
     ADXL355_Read_FIFO_Full(dataAdxl); // read data of ADXL355z and save in dataAdxl
     if (bPMaster) {
         Led_verde_toggle();
@@ -54,50 +51,7 @@ void __attribute__((weak)) EX_INT1_CallBack(void) {
             RF24L01_sendData(env, 12);
         }
         contEnv++;
-    }
-
-    if (bSaveData) {
-        // First block for save in the uSD
-        if (bInituSD) {
-            // Read RTC time
-            ds3234_date_time timeS;
-            aux = TMR2_Counter32BitGet();
-            DS3234_getTime(&timeS);
-            dataSentuSD[0] = idNodo;
-            dataSentuSD[1] = timeS.seconds;
-            dataSentuSD[2] = timeS.minutes;
-            dataSentuSD[3] = timeS.hours;
-            dataSentuSD[4] = timeS.day;
-            dataSentuSD[5] = timeS.date;
-            dataSentuSD[6] = timeS.month;
-            dataSentuSD[7] = timeS.year;
-            dataSentuSD[8] = aux;
-            dataSentuSD[9] = aux >> 8;
-            dataSentuSD[10] = aux >> 16;
-            dataSentuSD[11] = aux >> 24;
-            SD_Write_Block(dataSentuSD, sector);
-            bInituSD = 0;
-            sector++;
-            countUsd = 0;
-        }
-        for (j = 0; j < 63; j++) {
-            dataSentuSD[countUsd] = dataAdxl[j];
-            countUsd++;
-            if (countUsd >= 504) {
-                for (k = 0; k < 8; k++) {
-                    dataSentuSD[countUsd] = 0x4E;
-                    countUsd++;
-                }
-                countUsd = 0;
-                if (sector > 30224380)
-                    break;
-                SD_Write_Block(dataSentuSD, sector);
-                Led_verde_toggle();
-                sector++;
-
-            }
-        }
-    }
+    } // En if for sent data to station base
 }
 
 /**
