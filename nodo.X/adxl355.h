@@ -163,4 +163,6 @@ uint8_t ADXL355_Status();
 
 void ADXL355_Power_On();
 
+void ADXL355_Power_Off();
+
 #endif

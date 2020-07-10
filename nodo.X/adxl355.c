@@ -44,6 +44,10 @@ void ADXL355_Power_On() {
     ADXL355_Write_Byte(POWER_CTL, MEASURING);
 }
 
+void ADXL355_Power_Off() {
+    ADXL355_Write_Byte(POWER_CTL, STANDBY);
+}
+
 unsigned char ADXL355_Read_Byte(unsigned char address) {
     unsigned char temp = 0x00;
 

@@ -8,15 +8,9 @@
 #include <xc.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include "ds3234.h"
+#include "adxl355.h"
 
-extern uint8_t bPMaster;
-extern uint8_t bMesure;
-extern uint8_t bSaveData;
-extern uint8_t rxRec[12];
-extern ds3234_time timerStop;
-extern ds3234_time timerInit;
-extern bool running ;
+extern uint8_t bTurnOnAdxl;
 
 #ifdef __cplusplus  // Provide C++ Compatibility
 

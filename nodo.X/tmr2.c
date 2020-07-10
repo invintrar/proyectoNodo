@@ -127,18 +127,10 @@ uint32_t TMR2_Counter32BitGet(void) {
  * Interrupt production for timer2 each second
  */
 void __attribute__((weak)) TMR2_CallBack(void) {
-    if (bMesure) {
-        if(!bPMaster && bSaveData)
-            Led_verde_toggle();
-        ds3234_time now;
-        DS3234_time(&now);
-        if (timerInit.minutes == now.minutes )
-            bSaveData = 1;
-        if (now.hours == timerStop.hours && now.minutes == timerStop.minutes && now.seconds == timerStop.seconds) {
-            bSaveData = 0;
-            running = false;
-        }
-    }
+    if (bTurnOnAdxl){
+        ADXL355_Power_On();
+        bTurnOnAdxl = 0;
+    }    
 }
 
 void TMR2_SetInterruptHandler(void (* InterruptHandler)(void)) {

@@ -40,11 +40,7 @@ int main(void) {
         Led_verde_toggle();
         __delay_ms(50);
     }
-
-    // Turn on ADXL355Z
-    ADXL355_Power_On();
-    TMR2_Counter32BitSet(0x00);
-
+    Led_verde_setHigh();
 
     // while running program
     while (running) {
@@ -65,7 +61,9 @@ int main(void) {
                 bNrf = 0;
                 break;
             default:
-                saveMicroSd();
+                if (bMesure) {
+                    saveMicroSd();
+                }
                 break;
         } // end switch
     } // End while
@@ -78,64 +76,88 @@ void saveMicroSd() {
     uint8_t j = 0;
     uint8_t k = 0;
     uint8_t bData = 0;
-    if (bDataAdxl) {
+    ds3234_time now;
+
+    DS3234_time(&now);
+    if (now.hours >= 23) {
+        now.hours = 0x00;
+    } else {
+        now.hours = now.hours + 1;
+    }
+    if (timerInit.hours == now.hours && timerInit.minutes == now.minutes && timerInit.seconds == now.seconds) {
+        Led_verde_setHigh();
+        bSaveData = 1;
+    } else if (timerStop.hours == now.hours && timerStop.minutes == now.minutes && timerStop.seconds == now.seconds) {
+        Led_verde_setLow();
+        ADXL355_Power_Off();
         bDataAdxl = 0;
+        bSaveData = 0;
+        bMesure = 0;
+    }
+    if ( bSaveData && bDataAdxl) {
         if (bInituSD) {
             // Read RTC time
             ds3234_date_time timeS;
+            uint8_t data[512] = {0};
             aux = TMR2_Counter32BitGet();
             DS3234_getTime(&timeS);
-            dataSentuSD[0] = idNodo;
-            dataSentuSD[1] = timeS.seconds;
-            dataSentuSD[2] = timeS.minutes;
-            dataSentuSD[3] = timeS.hours;
-            dataSentuSD[4] = timeS.day;
-            dataSentuSD[5] = timeS.date;
-            dataSentuSD[6] = timeS.month;
-            dataSentuSD[7] = timeS.year;
-            dataSentuSD[8] = aux;
-            dataSentuSD[9] = aux >> 8;
-            dataSentuSD[10] = aux >> 16;
-            dataSentuSD[11] = aux >> 24;
-            bData = SD_Write_Block(dataSentuSD, sector);
+            data[0] = idNodo;
+            data[1] = timeS.seconds;
+            data[2] = timeS.minutes;
+            if (timeS.hours >= 4) {
+                data[3] = timeS.hours - 4;
+                data[5] = timeS.date;
+            } else {
+                data[3] = 20 + timeS.hours;
+                data[5] = timeS.date - 1;
+            }
+            data[4] = timeS.day;
+            data[6] = timeS.month;
+            data[7] = timeS.year;
+            data[8] = aux;
+            data[9] = aux >> 8;
+            data[10] = aux >> 16;
+            data[11] = aux >> 24;
+            bData = SD_Write_Block(data, sector);
             while (1) {
                 if (bData == DATA_ACCEPTED) {
                     Led_verde_toggle();
                     bInituSD = 0;
                     sector++;
-                    countUsd = 0;
                     break;
                 } else {
-                    bData = SD_Write_Block(dataSentuSD, sector);
+                    bData = SD_Write_Block(data, sector);
                 }
             }
-
-        }
-        for (j = 0; j < 63; j++) {
-            dataSentuSD[countUsd] = dataAdxl[j];
-            countUsd++;
-            if (countUsd >= 504) {
-                for (k = 0; k < 8; k++) {
-                    dataSentuSD[countUsd] = 0x53;
-                    countUsd++;
-                }
-                countUsd = 0;
-
-                if (sector > 30224380)
-                    break;
-                bData = SD_Write_Block(dataSentuSD, sector);
-                while (1) {
-                    if (bData == DATA_ACCEPTED) {
-                        Led_verde_toggle();
-                        sector++;
+        } else {
+            for (j = 0; j < 63; j++) {
+                dataSentuSD[countUsd] = dataAdxl[j];
+                countUsd++;
+                if (countUsd == 504) {
+                    for (k = 0; k < 8; k++) {
+                        dataSentuSD[countUsd] = 0x73;
+                        countUsd++;
+                    }
+                    countUsd = 0;
+                    if (sector > 30224380)
                         break;
-                    } else {
-                        bData = SD_Write_Block(dataSentuSD, sector);
+                    bData = SD_Write_Block(dataSentuSD, sector);
+                    while (1) {
+                        if (bData == DATA_ACCEPTED) {
+                            Led_verde_toggle();
+                            sector++;
+                            break;
+                        } else {
+                            bData = SD_Write_Block(dataSentuSD, sector);
+                        }
                     }
                 }
             }
+            bDataAdxl = 0;
         }
-    }// end if check data Adxl355
+    }else if(bDataAdxl){
+        bDataAdxl = 0;
+    }
 } // end saveMicroSd
 
 void task(uint8_t opc) {
@@ -151,22 +173,29 @@ void task(uint8_t opc) {
             //sendTime();
             break;
         case 3: // For sent data ADXL355 from Node to Master
+            Led_verde_setHigh();
             bPMaster = 1;
+            // Turn on ADXL355Z
+            bTurnOnAdxl = 1;
             break;
         case 4: // Initiation save data in microSD
+            bTurnOnAdxl = 1;
             bMesure = 1;
+            Led_verde_setHigh();
             setTimerMesure();
             txEnv[0] = 6;
             txEnv[1] = idNodo;
             RF24L01_sendData(txEnv, 12);
             break;
         case 5: // Stop sent data ADXL355 from Node to Master
+            Led_verde_setHigh();
             bPMaster = 0;
+            ADXL355_Power_Off();
             txEnv[0] = 5; // sent notify end measuring
             RF24L01_sendData(txEnv, 12);
             break;
         case 6:
-            bMesure = 0;
+            bTurnOnAdxl = 0;
             running = 0;
         default:
             break;
@@ -345,8 +374,13 @@ void sendTime() {
     txEnv[0] = 3; // Option notification for the master end synchronization
     txEnv[1] = timeSent.seconds;
     txEnv[2] = timeSent.minutes;
-    txEnv[3] = timeSent.hours;
-    txEnv[4] = timeSent.date;
+    if (timeSent.hours >= 4) {
+        txEnv[3] = timeSent.hours - 4;
+        txEnv[4] = timeSent.date;
+    } else {
+        txEnv[3] = 20 + timeSent.hours;
+        txEnv[4] = timeSent.date - 1;
+    }
     txEnv[5] = timeSent.month;
     txEnv[6] = timeSent.year;
     txEnv[7] = timeSent.day;
