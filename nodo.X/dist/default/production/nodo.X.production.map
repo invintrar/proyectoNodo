@@ -181,12 +181,12 @@ Default Scalar Model: Small
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200              0x1588          0x204c  (8268)
-.text                       0x1788              0x13ca          0x1daf  (7599)
-.dinit                      0x2b52               0x20c           0x312  (786)
-.text                       0x2d5e               0x5dc           0x8ca  (2250)
-.init.delay32               0x333a                0x1c            0x2a  (42)
+.text                       0x1788              0x13ee          0x1de5  (7653)
+.dinit                      0x2b76               0x20c           0x312  (786)
+.text                       0x2d82               0x5dc           0x8ca  (2250)
+.init.delay32               0x335e                0x1c            0x2a  (42)
 
-                 Total "program" memory used (bytes):         0x4a01  (18945) 7%
+                 Total "program" memory used (bytes):         0x4a37  (18999) 7%
 
 
 "data" Memory  [Origin = 0x1000, Length = 0x8000]
@@ -375,135 +375,135 @@ External Symbols in Program Memory (by address):
                   0x001d0e                  _convertCharToInt
                   0x001d98                  _setClock
                   0x001e50                  _setTimerMesure
-                  0x001f1a                  _getTime
-                  0x001f7e                  _sendTime
-                  0x001fd8                  _SD_Init
-                  0x002228                  _SD_Init_Try
-                  0x002264                  _SD_Read
-                  0x0022c6                  _SD_Read_Block
-                  0x002318                  _SD_Write_Block
-                  0x0023c6                  _R1_Response
-                  0x0023da                  _R2_Response
-                  0x002400                  _Response_32b
-                  0x002468                  _SD_Send_Command
-                  0x0024b2                  _SD_Ready
-                  0x0024e6                  _SD_Detect
-                  0x00250c                  _Select_SD
-                  0x002520                  _Release_SD
-                  0x00252e                  _SD_Led_On
-                  0x00253a                  _SD_Led_Off
-                  0x002546                  _RF24L01_Init
-                  0x00255a                  _RF24L01_send_command
-                  0x00256a                  _RF24L01_read_register
-                  0x002582                  _RF24L01_write_register
-                  0x0025b2                  _RF24L01_setup
-                  0x0026ec                  _RF24L01_sendData
-                  0x00274c                  _RF24L01_set_mode_RX
-                  0x002784                  _RF24L01_get_status
-                  0x00279c                  _RF24L01_read_payload
-                  0x0027d0                  _RF24L01_status
-                  0x002808                  _RF24L01_clear_interrupts
-                  0x002830                  _RF24L01_powerDown
-                  0x002862                  _DS3234_init
-                  0x002894                  _DS3234_getTime
-                  0x002992                  _DS3234_time
-                  0x002a08                  _DS3234_setTime
-                  0x002d5e                  _ADXL355_Init
-                  0x002da0                  _ADXL355_Write_Byte
-                  0x002dbc                  _ADXL355_Power_On
-                  0x002dc8                  _ADXL355_Power_Off
-                  0x002dd4                  _ADXL355_Read_Byte
-                  0x002dfe                  _ADXL355_Read_FIFO
-                  0x002e96                  _ADXL355_Read_FIFO_Full
-                  0x002ecc                  _ADXL355_Status
-                  0x002ee6                  _TMR2_Initialize
-                  0x002f10                  _TMR2_Period32BitSet
-                  0x002f26                  _TMR2_Period32BitGet
-                  0x002f46                  _TMR2_Counter32BitSet
-                  0x002f5c                  _TMR2_Counter32BitGet
-                  0x002f94                  _TMR2_SetInterruptHandler
-                  0x002fa4                  _TMR2_Start
-                  0x002fb4                  _TMR2_Stop
-                  0x002fbe                  _TMR2_GetElapsedThenClear
-                  0x002fd6                  _TMR2_SoftwareCounterGet
-                  0x002fe2                  _TMR2_SoftwareCounterClear
-                  0x0030c4                  _EXT_INT_Initialize
-                  0x0030dc                  _pines_Conf_Init
-                  0x00315c                  _SPI1_Init
-                  0x00317c                  _SPI1_Exchange
-                  0x0031aa                  _SPI1_Exchange_Byte
-                  0x0031d4                  _SYSTEM_Initialize
-                  0x003214                  _INTERRUPT_Initialize
-                  0x00326a                  _oscConfig
-                  0x0032bc                  _SPI2_Init
-                  0x0032ce                  _SPI2_Exchange
-                  0x0032fc                  _SPI2_Exchange_Byte
-                  0x00330c                  _ADC1_Initialize
-                  0x00333a                  ___delay32
+                  0x001f3e                  _getTime
+                  0x001fa2                  _sendTime
+                  0x001ffc                  _SD_Init
+                  0x00224c                  _SD_Init_Try
+                  0x002288                  _SD_Read
+                  0x0022ea                  _SD_Read_Block
+                  0x00233c                  _SD_Write_Block
+                  0x0023ea                  _R1_Response
+                  0x0023fe                  _R2_Response
+                  0x002424                  _Response_32b
+                  0x00248c                  _SD_Send_Command
+                  0x0024d6                  _SD_Ready
+                  0x00250a                  _SD_Detect
+                  0x002530                  _Select_SD
+                  0x002544                  _Release_SD
+                  0x002552                  _SD_Led_On
+                  0x00255e                  _SD_Led_Off
+                  0x00256a                  _RF24L01_Init
+                  0x00257e                  _RF24L01_send_command
+                  0x00258e                  _RF24L01_read_register
+                  0x0025a6                  _RF24L01_write_register
+                  0x0025d6                  _RF24L01_setup
+                  0x002710                  _RF24L01_sendData
+                  0x002770                  _RF24L01_set_mode_RX
+                  0x0027a8                  _RF24L01_get_status
+                  0x0027c0                  _RF24L01_read_payload
+                  0x0027f4                  _RF24L01_status
+                  0x00282c                  _RF24L01_clear_interrupts
+                  0x002854                  _RF24L01_powerDown
+                  0x002886                  _DS3234_init
+                  0x0028b8                  _DS3234_getTime
+                  0x0029b6                  _DS3234_time
+                  0x002a2c                  _DS3234_setTime
+                  0x002d82                  _ADXL355_Init
+                  0x002dc4                  _ADXL355_Write_Byte
+                  0x002de0                  _ADXL355_Power_On
+                  0x002dec                  _ADXL355_Power_Off
+                  0x002df8                  _ADXL355_Read_Byte
+                  0x002e22                  _ADXL355_Read_FIFO
+                  0x002eba                  _ADXL355_Read_FIFO_Full
+                  0x002ef0                  _ADXL355_Status
+                  0x002f0a                  _TMR2_Initialize
+                  0x002f34                  _TMR2_Period32BitSet
+                  0x002f4a                  _TMR2_Period32BitGet
+                  0x002f6a                  _TMR2_Counter32BitSet
+                  0x002f80                  _TMR2_Counter32BitGet
+                  0x002fb8                  _TMR2_SetInterruptHandler
+                  0x002fc8                  _TMR2_Start
+                  0x002fd8                  _TMR2_Stop
+                  0x002fe2                  _TMR2_GetElapsedThenClear
+                  0x002ffa                  _TMR2_SoftwareCounterGet
+                  0x003006                  _TMR2_SoftwareCounterClear
+                  0x0030e8                  _EXT_INT_Initialize
+                  0x003100                  _pines_Conf_Init
+                  0x003180                  _SPI1_Init
+                  0x0031a0                  _SPI1_Exchange
+                  0x0031ce                  _SPI1_Exchange_Byte
+                  0x0031f8                  _SYSTEM_Initialize
+                  0x003238                  _INTERRUPT_Initialize
+                  0x00328e                  _oscConfig
+                  0x0032e0                  _SPI2_Init
+                  0x0032f2                  _SPI2_Exchange
+                  0x003320                  _SPI2_Exchange_Byte
+                  0x003330                  _ADC1_Initialize
+                  0x00335e                  ___delay32
                   0x02affa                  __FGS.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x00330c                  _ADC1_Initialize
-                  0x002d5e                  _ADXL355_Init
-                  0x002dc8                  _ADXL355_Power_Off
-                  0x002dbc                  _ADXL355_Power_On
-                  0x002dd4                  _ADXL355_Read_Byte
-                  0x002dfe                  _ADXL355_Read_FIFO
-                  0x002e96                  _ADXL355_Read_FIFO_Full
-                  0x002ecc                  _ADXL355_Status
-                  0x002da0                  _ADXL355_Write_Byte
-                  0x002894                  _DS3234_getTime
-                  0x002862                  _DS3234_init
-                  0x002a08                  _DS3234_setTime
-                  0x002992                  _DS3234_time
-                  0x0030c4                  _EXT_INT_Initialize
-                  0x003214                  _INTERRUPT_Initialize
-                  0x0023c6                  _R1_Response
-                  0x0023da                  _R2_Response
-                  0x002546                  _RF24L01_Init
-                  0x002808                  _RF24L01_clear_interrupts
-                  0x002784                  _RF24L01_get_status
-                  0x002830                  _RF24L01_powerDown
-                  0x00279c                  _RF24L01_read_payload
-                  0x00256a                  _RF24L01_read_register
-                  0x0026ec                  _RF24L01_sendData
-                  0x00255a                  _RF24L01_send_command
-                  0x00274c                  _RF24L01_set_mode_RX
-                  0x0025b2                  _RF24L01_setup
-                  0x0027d0                  _RF24L01_status
-                  0x002582                  _RF24L01_write_register
-                  0x002520                  _Release_SD
-                  0x002400                  _Response_32b
-                  0x0024e6                  _SD_Detect
-                  0x001fd8                  _SD_Init
-                  0x002228                  _SD_Init_Try
-                  0x00253a                  _SD_Led_Off
-                  0x00252e                  _SD_Led_On
-                  0x002264                  _SD_Read
-                  0x0022c6                  _SD_Read_Block
-                  0x0024b2                  _SD_Ready
-                  0x002468                  _SD_Send_Command
-                  0x002318                  _SD_Write_Block
-                  0x00317c                  _SPI1_Exchange
-                  0x0031aa                  _SPI1_Exchange_Byte
-                  0x00315c                  _SPI1_Init
-                  0x0032ce                  _SPI2_Exchange
-                  0x0032fc                  _SPI2_Exchange_Byte
-                  0x0032bc                  _SPI2_Init
-                  0x0031d4                  _SYSTEM_Initialize
-                  0x00250c                  _Select_SD
-                  0x002f5c                  _TMR2_Counter32BitGet
-                  0x002f46                  _TMR2_Counter32BitSet
-                  0x002fbe                  _TMR2_GetElapsedThenClear
-                  0x002ee6                  _TMR2_Initialize
-                  0x002f26                  _TMR2_Period32BitGet
-                  0x002f10                  _TMR2_Period32BitSet
-                  0x002f94                  _TMR2_SetInterruptHandler
-                  0x002fe2                  _TMR2_SoftwareCounterClear
-                  0x002fd6                  _TMR2_SoftwareCounterGet
-                  0x002fa4                  _TMR2_Start
-                  0x002fb4                  _TMR2_Stop
+                  0x003330                  _ADC1_Initialize
+                  0x002d82                  _ADXL355_Init
+                  0x002dec                  _ADXL355_Power_Off
+                  0x002de0                  _ADXL355_Power_On
+                  0x002df8                  _ADXL355_Read_Byte
+                  0x002e22                  _ADXL355_Read_FIFO
+                  0x002eba                  _ADXL355_Read_FIFO_Full
+                  0x002ef0                  _ADXL355_Status
+                  0x002dc4                  _ADXL355_Write_Byte
+                  0x0028b8                  _DS3234_getTime
+                  0x002886                  _DS3234_init
+                  0x002a2c                  _DS3234_setTime
+                  0x0029b6                  _DS3234_time
+                  0x0030e8                  _EXT_INT_Initialize
+                  0x003238                  _INTERRUPT_Initialize
+                  0x0023ea                  _R1_Response
+                  0x0023fe                  _R2_Response
+                  0x00256a                  _RF24L01_Init
+                  0x00282c                  _RF24L01_clear_interrupts
+                  0x0027a8                  _RF24L01_get_status
+                  0x002854                  _RF24L01_powerDown
+                  0x0027c0                  _RF24L01_read_payload
+                  0x00258e                  _RF24L01_read_register
+                  0x002710                  _RF24L01_sendData
+                  0x00257e                  _RF24L01_send_command
+                  0x002770                  _RF24L01_set_mode_RX
+                  0x0025d6                  _RF24L01_setup
+                  0x0027f4                  _RF24L01_status
+                  0x0025a6                  _RF24L01_write_register
+                  0x002544                  _Release_SD
+                  0x002424                  _Response_32b
+                  0x00250a                  _SD_Detect
+                  0x001ffc                  _SD_Init
+                  0x00224c                  _SD_Init_Try
+                  0x00255e                  _SD_Led_Off
+                  0x002552                  _SD_Led_On
+                  0x002288                  _SD_Read
+                  0x0022ea                  _SD_Read_Block
+                  0x0024d6                  _SD_Ready
+                  0x00248c                  _SD_Send_Command
+                  0x00233c                  _SD_Write_Block
+                  0x0031a0                  _SPI1_Exchange
+                  0x0031ce                  _SPI1_Exchange_Byte
+                  0x003180                  _SPI1_Init
+                  0x0032f2                  _SPI2_Exchange
+                  0x003320                  _SPI2_Exchange_Byte
+                  0x0032e0                  _SPI2_Init
+                  0x0031f8                  _SYSTEM_Initialize
+                  0x002530                  _Select_SD
+                  0x002f80                  _TMR2_Counter32BitGet
+                  0x002f6a                  _TMR2_Counter32BitSet
+                  0x002fe2                  _TMR2_GetElapsedThenClear
+                  0x002f0a                  _TMR2_Initialize
+                  0x002f4a                  _TMR2_Period32BitGet
+                  0x002f34                  _TMR2_Period32BitSet
+                  0x002fb8                  _TMR2_SetInterruptHandler
+                  0x003006                  _TMR2_SoftwareCounterClear
+                  0x002ffa                  _TMR2_SoftwareCounterGet
+                  0x002fc8                  _TMR2_Start
+                  0x002fd8                  _TMR2_Stop
                   0x000306                  __AD1Interrupt
                   0x000a38                  __Atexit
                   0x000e4e                  __CStrftime
@@ -525,7 +525,7 @@ External Symbols in Program Memory (by name):
                   0x000390                  __T3Interrupt
                   0x0005a6                  __Ttotm
                   0x000696                  __Tzoff
-                  0x00333a                  ___delay32
+                  0x00335e                  ___delay32
                   0x000410                  ___divsi3
                   0x001584                  ___eqsf2
                   0x001588                  ___floatdisf
@@ -553,7 +553,7 @@ External Symbols in Program Memory (by name):
                   0x001c5a                  _differenceMS
                   0x001cb8                  _differenceSM
                   0x000aae                  _free
-                  0x001f1a                  _getTime
+                  0x001f3e                  _getTime
                   0x00044e                  _gmtime
                   0x000a08                  _isalpha
                   0x000a1c                  _isspace
@@ -563,10 +563,10 @@ External Symbols in Program Memory (by name):
                   0x001562                  _memchr
                   0x001576                  _memcpy
                   0x000458                  _mktime
-                  0x00326a                  _oscConfig
-                  0x0030dc                  _pines_Conf_Init
+                  0x00328e                  _oscConfig
+                  0x003100                  _pines_Conf_Init
                   0x001860                  _saveMicroSd
-                  0x001f7e                  _sendTime
+                  0x001fa2                  _sendTime
                   0x001d98                  _setClock
                   0x001e50                  _setTimerMesure
                   0x000bcc                  _strchr
@@ -824,7 +824,7 @@ __FOSCSEL
 
 __FGS             0x02affa          0x2
  *(__FGS.sec*)
- __FGS.sec        0x02affa          0x2 /CW/_FGSÀˆ8øˆ8__FGS.sec
+ __FGS.sec        0x02affa          0x2 /CW/_FGS Ô8XÔ8__FGS.sec
                   0x02affa                  __FGS.sec
 
 __FUID0
@@ -877,22 +877,22 @@ __FUID3
  .debug_abbrev    0x000eb2         0xe4 build/default/production/ds3234.o
  .debug_abbrev    0x000f96        0x19e build/default/production/tmr2.o
 
-.debug_line       0x000000       0x1534
+.debug_line       0x000000       0x1538
  *(.debug_line)
  .debug_line      0x000000        0x147 build/default/production/adc1.o
  .debug_line      0x000147        0x176 build/default/production/adxl355.o
  .debug_line      0x0002bd        0x19a build/default/production/ext_int.o
  .debug_line      0x000457        0x12f build/default/production/interrupt_manager.o
- .debug_line      0x000586        0x2ad build/default/production/main.o
- .debug_line      0x000833        0x123 build/default/production/osc.o
- .debug_line      0x000956        0x138 build/default/production/pines_conf.o
- .debug_line      0x000a8e        0x1b5 build/default/production/rf24l01.o
- .debug_line      0x000c43        0x21c build/default/production/sdcard.o
- .debug_line      0x000e5f        0x12e build/default/production/spi1.o
- .debug_line      0x000f8d        0x12b build/default/production/spi2.o
- .debug_line      0x0010b8        0x185 build/default/production/system.o
- .debug_line      0x00123d        0x17b build/default/production/ds3234.o
- .debug_line      0x0013b8        0x17c build/default/production/tmr2.o
+ .debug_line      0x000586        0x2b1 build/default/production/main.o
+ .debug_line      0x000837        0x123 build/default/production/osc.o
+ .debug_line      0x00095a        0x138 build/default/production/pines_conf.o
+ .debug_line      0x000a92        0x1b5 build/default/production/rf24l01.o
+ .debug_line      0x000c47        0x21c build/default/production/sdcard.o
+ .debug_line      0x000e63        0x12e build/default/production/spi1.o
+ .debug_line      0x000f91        0x12b build/default/production/spi2.o
+ .debug_line      0x0010bc        0x185 build/default/production/system.o
+ .debug_line      0x001241        0x17b build/default/production/ds3234.o
+ .debug_line      0x0013bc        0x17c build/default/production/tmr2.o
 
 .debug_frame      0x000000        0xbb2
  *(.debug_frame)
@@ -2093,7 +2093,7 @@ LOAD c:/program files (x86)/microchip/xc16/v1.41/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files (x86)/microchip/xc16/v1.41/bin/bin/../../lib\liblega-c-elf.a
 END GROUP
 OUTPUT(dist/default/production/nodo.X.production.elf elf32-pic30)
-LOAD /CW/_FGSÀˆ8øˆ8__FGS.sec
+LOAD /CW/_FGS Ô8XÔ8__FGS.sec
 LOAD jump_table
 LOAD default_isr
 LOAD data_init
@@ -2376,8 +2376,8 @@ __c30_signature
  .ivt._T3Interrupt
                   0x000024          0x2 build/default/production/tmr2.o
 
-.text             0x001788       0x13ca
- .text            0x001788        0x850 build/default/production/main.o
+.text             0x001788       0x13ee
+ .text            0x001788        0x874 build/default/production/main.o
                   0x001798                  _main
                   0x001860                  _saveMicroSd
                   0x001a70                  _task
@@ -2387,94 +2387,94 @@ __c30_signature
                   0x001d0e                  _convertCharToInt
                   0x001d98                  _setClock
                   0x001e50                  _setTimerMesure
-                  0x001f1a                  _getTime
-                  0x001f7e                  _sendTime
- .text            0x001fd8        0x56e build/default/production/sdcard.o
-                  0x001fd8                  _SD_Init
-                  0x002228                  _SD_Init_Try
-                  0x002264                  _SD_Read
-                  0x0022c6                  _SD_Read_Block
-                  0x002318                  _SD_Write_Block
-                  0x0023c6                  _R1_Response
-                  0x0023da                  _R2_Response
-                  0x002400                  _Response_32b
-                  0x002468                  _SD_Send_Command
-                  0x0024b2                  _SD_Ready
-                  0x0024e6                  _SD_Detect
-                  0x00250c                  _Select_SD
-                  0x002520                  _Release_SD
-                  0x00252e                  _SD_Led_On
-                  0x00253a                  _SD_Led_Off
- .text            0x002546        0x31c build/default/production/rf24l01.o
-                  0x002546                  _RF24L01_Init
-                  0x00255a                  _RF24L01_send_command
-                  0x00256a                  _RF24L01_read_register
-                  0x002582                  _RF24L01_write_register
-                  0x0025b2                  _RF24L01_setup
-                  0x0026ec                  _RF24L01_sendData
-                  0x00274c                  _RF24L01_set_mode_RX
-                  0x002784                  _RF24L01_get_status
-                  0x00279c                  _RF24L01_read_payload
-                  0x0027d0                  _RF24L01_status
-                  0x002808                  _RF24L01_clear_interrupts
-                  0x002830                  _RF24L01_powerDown
- .text            0x002862        0x2f0 build/default/production/ds3234.o
-                  0x002862                  _DS3234_init
-                  0x002894                  _DS3234_getTime
-                  0x002992                  _DS3234_time
-                  0x002a08                  _DS3234_setTime
+                  0x001f3e                  _getTime
+                  0x001fa2                  _sendTime
+ .text            0x001ffc        0x56e build/default/production/sdcard.o
+                  0x001ffc                  _SD_Init
+                  0x00224c                  _SD_Init_Try
+                  0x002288                  _SD_Read
+                  0x0022ea                  _SD_Read_Block
+                  0x00233c                  _SD_Write_Block
+                  0x0023ea                  _R1_Response
+                  0x0023fe                  _R2_Response
+                  0x002424                  _Response_32b
+                  0x00248c                  _SD_Send_Command
+                  0x0024d6                  _SD_Ready
+                  0x00250a                  _SD_Detect
+                  0x002530                  _Select_SD
+                  0x002544                  _Release_SD
+                  0x002552                  _SD_Led_On
+                  0x00255e                  _SD_Led_Off
+ .text            0x00256a        0x31c build/default/production/rf24l01.o
+                  0x00256a                  _RF24L01_Init
+                  0x00257e                  _RF24L01_send_command
+                  0x00258e                  _RF24L01_read_register
+                  0x0025a6                  _RF24L01_write_register
+                  0x0025d6                  _RF24L01_setup
+                  0x002710                  _RF24L01_sendData
+                  0x002770                  _RF24L01_set_mode_RX
+                  0x0027a8                  _RF24L01_get_status
+                  0x0027c0                  _RF24L01_read_payload
+                  0x0027f4                  _RF24L01_status
+                  0x00282c                  _RF24L01_clear_interrupts
+                  0x002854                  _RF24L01_powerDown
+ .text            0x002886        0x2f0 build/default/production/ds3234.o
+                  0x002886                  _DS3234_init
+                  0x0028b8                  _DS3234_getTime
+                  0x0029b6                  _DS3234_time
+                  0x002a2c                  _DS3234_setTime
 
-.dinit            0x002b52        0x20c
- .dinit           0x002b52        0x20c data_init
+.dinit            0x002b76        0x20c
+ .dinit           0x002b76        0x20c data_init
 
-.text             0x002d5e        0x5dc
- .text            0x002d5e        0x188 build/default/production/adxl355.o
-                  0x002d5e                  _ADXL355_Init
-                  0x002da0                  _ADXL355_Write_Byte
-                  0x002dbc                  _ADXL355_Power_On
-                  0x002dc8                  _ADXL355_Power_Off
-                  0x002dd4                  _ADXL355_Read_Byte
-                  0x002dfe                  _ADXL355_Read_FIFO
-                  0x002e96                  _ADXL355_Read_FIFO_Full
-                  0x002ecc                  _ADXL355_Status
- .text            0x002ee6        0x108 build/default/production/tmr2.o
-                  0x002ee6                  _TMR2_Initialize
-                  0x002f10                  _TMR2_Period32BitSet
-                  0x002f26                  _TMR2_Period32BitGet
-                  0x002f46                  _TMR2_Counter32BitSet
-                  0x002f5c                  _TMR2_Counter32BitGet
-                  0x002f84                  _TMR2_CallBack
-                  0x002f94                  _TMR2_SetInterruptHandler
-                  0x002fa4                  _TMR2_Start
-                  0x002fb4                  _TMR2_Stop
-                  0x002fbe                  _TMR2_GetElapsedThenClear
-                  0x002fd6                  _TMR2_SoftwareCounterGet
-                  0x002fe2                  _TMR2_SoftwareCounterClear
- .text            0x002fee         0xee build/default/production/ext_int.o
-                  0x002ffe                  _EX_INT0_CallBack
-                  0x003004                  _EX_INT1_CallBack
-                  0x0030b8                  _EX_INT2_CallBack
-                  0x0030c4                  _EXT_INT_Initialize
- .text            0x0030dc         0x80 build/default/production/pines_conf.o
-                  0x0030dc                  _pines_Conf_Init
- .text            0x00315c         0x5e build/default/production/spi1.o
-                  0x00315c                  _SPI1_Init
-                  0x00317c                  _SPI1_Exchange
-                  0x0031aa                  _SPI1_Exchange_Byte
- .text            0x0031ba         0x5a build/default/production/system.o
-                  0x0031d4                  _SYSTEM_Initialize
- .text            0x003214         0x56 build/default/production/interrupt_manager.o
-                  0x003214                  _INTERRUPT_Initialize
- .text            0x00326a         0x52 build/default/production/osc.o
-                  0x00326a                  _oscConfig
- .text            0x0032bc         0x50 build/default/production/spi2.o
-                  0x0032bc                  _SPI2_Init
-                  0x0032ce                  _SPI2_Exchange
-                  0x0032fc                  _SPI2_Exchange_Byte
- .text            0x00330c         0x2e build/default/production/adc1.o
-                  0x00330c                  _ADC1_Initialize
-                  0x003330                  _ADC1_CallBack
+.text             0x002d82        0x5dc
+ .text            0x002d82        0x188 build/default/production/adxl355.o
+                  0x002d82                  _ADXL355_Init
+                  0x002dc4                  _ADXL355_Write_Byte
+                  0x002de0                  _ADXL355_Power_On
+                  0x002dec                  _ADXL355_Power_Off
+                  0x002df8                  _ADXL355_Read_Byte
+                  0x002e22                  _ADXL355_Read_FIFO
+                  0x002eba                  _ADXL355_Read_FIFO_Full
+                  0x002ef0                  _ADXL355_Status
+ .text            0x002f0a        0x108 build/default/production/tmr2.o
+                  0x002f0a                  _TMR2_Initialize
+                  0x002f34                  _TMR2_Period32BitSet
+                  0x002f4a                  _TMR2_Period32BitGet
+                  0x002f6a                  _TMR2_Counter32BitSet
+                  0x002f80                  _TMR2_Counter32BitGet
+                  0x002fa8                  _TMR2_CallBack
+                  0x002fb8                  _TMR2_SetInterruptHandler
+                  0x002fc8                  _TMR2_Start
+                  0x002fd8                  _TMR2_Stop
+                  0x002fe2                  _TMR2_GetElapsedThenClear
+                  0x002ffa                  _TMR2_SoftwareCounterGet
+                  0x003006                  _TMR2_SoftwareCounterClear
+ .text            0x003012         0xee build/default/production/ext_int.o
+                  0x003022                  _EX_INT0_CallBack
+                  0x003028                  _EX_INT1_CallBack
+                  0x0030dc                  _EX_INT2_CallBack
+                  0x0030e8                  _EXT_INT_Initialize
+ .text            0x003100         0x80 build/default/production/pines_conf.o
+                  0x003100                  _pines_Conf_Init
+ .text            0x003180         0x5e build/default/production/spi1.o
+                  0x003180                  _SPI1_Init
+                  0x0031a0                  _SPI1_Exchange
+                  0x0031ce                  _SPI1_Exchange_Byte
+ .text            0x0031de         0x5a build/default/production/system.o
+                  0x0031f8                  _SYSTEM_Initialize
+ .text            0x003238         0x56 build/default/production/interrupt_manager.o
+                  0x003238                  _INTERRUPT_Initialize
+ .text            0x00328e         0x52 build/default/production/osc.o
+                  0x00328e                  _oscConfig
+ .text            0x0032e0         0x50 build/default/production/spi2.o
+                  0x0032e0                  _SPI2_Init
+                  0x0032f2                  _SPI2_Exchange
+                  0x003320                  _SPI2_Exchange_Byte
+ .text            0x003330         0x2e build/default/production/adc1.o
+                  0x003330                  _ADC1_Initialize
+                  0x003354                  _ADC1_CallBack
 
-.init.delay32     0x00333a         0x1c
- .init.delay32    0x00333a         0x1c c:/program files (x86)/microchip/xc16/v1.41/bin/bin/../../lib\liblega-pic30-elf.a(delay32ep.Leo)
-                  0x00333a                  ___delay32
+.init.delay32     0x00335e         0x1c
+ .init.delay32    0x00335e         0x1c c:/program files (x86)/microchip/xc16/v1.41/bin/bin/../../lib\liblega-pic30-elf.a(delay32ep.Leo)
+                  0x00335e                  ___delay32

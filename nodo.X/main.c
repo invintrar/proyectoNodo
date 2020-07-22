@@ -94,7 +94,7 @@ void saveMicroSd() {
         bSaveData = 0;
         bMesure = 0;
     }
-    if ( bSaveData && bDataAdxl) {
+    if (bSaveData && bDataAdxl) {
         if (bInituSD) {
             // Read RTC time
             ds3234_date_time timeS;
@@ -155,7 +155,7 @@ void saveMicroSd() {
             }
             bDataAdxl = 0;
         }
-    }else if(bDataAdxl){
+    } else if (bDataAdxl) {
         bDataAdxl = 0;
     }
 } // end saveMicroSd
@@ -327,20 +327,27 @@ void setTimerMesure() {
     timerInit.minutes = newtime->tm_min + 1;
     timerInit.seconds = newtime->tm_sec;
     if (timerInit.minutes > 59) {
-        timerInit.minutes = timerInit.minutes - 59;
+        timerInit.minutes = timerInit.minutes - 60;
         timerInit.hours = timerInit.hours + 1;
+    }
+    if(timerInit.hours > 23){
+        timerInit.hours = timerInit.hours - 24;
     }
     // Use for stop timer 
     timerStop.seconds = newtime->tm_sec + rxRec[9];
     timerStop.minutes = newtime->tm_min + rxRec[10] + 1;
     timerStop.hours = newtime->tm_hour + rxRec[11];
+    
     if (timerStop.seconds > 59) {
         timerStop.minutes = timerStop.minutes + 1;
-        timerStop.seconds = timerStop.seconds - 59;
+        timerStop.seconds = timerStop.seconds - 60;
     }
     if (timerStop.minutes > 59) {
         timerStop.hours = timerStop.hours + 1;
-        timerStop.minutes = timerStop.minutes - 59;
+        timerStop.minutes = timerStop.minutes - 60;
+    }
+    if(timerStop.hours > 23){
+        timerStop.hours = timerStop.hours - 24;
     }
 }
 

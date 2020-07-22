@@ -25,7 +25,7 @@ void SYSTEM_Initialize(void) {
             }
         }
     }
-
+    
     // Initialization SPI2 (2.5MHz)
     SPI2_Init();
 

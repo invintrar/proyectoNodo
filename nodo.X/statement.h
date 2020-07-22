@@ -23,15 +23,15 @@ uint8_t dataSentuSD[512] = {0};
 // Variable for get data from the ADXL355Z
 uint8_t dataAdxl[63] = {0};
 // Address for NRF24L01+ RX and TX change for different node
-uint8_t rx_addr[5] = {0xA3, 0xA3, 0xA3, 0xA3, 0xA3}; // Change address for different node
-uint8_t tx_addr[5] = {0xA1, 0xA3, 0xA3, 0xA3, 0xA3}; 
+uint8_t rx_addr[5] = {0x79, 0x79, 0x79, 0x79, 0x79}; // Change address for different node
+uint8_t tx_addr[5] = {0x79, 0x79, 0x79, 0x79, 0x79}; 
 //Data receive or transmit 
 uint8_t rxRec[SIZEDATA] = {0} ;
 uint8_t txEnv[SIZEDATA] = {0}; 
 // Flag to use for monitor initiation uSD
 uint8_t buSDState = 0; 
 // Identifier Node use for notify master
-uint8_t idNodo = 3;
+uint8_t idNodo = 10;
 // flags use for NRF24L01+
 uint8_t bNrf = 0;
 // flag use for write first block in uSD
@@ -86,8 +86,6 @@ void saveDataMsd();
 void setTimerMesure();
 void sendTime();
 void saveMicroSd();// save test delete after
-
-
 #endif
 /*
  * End file
