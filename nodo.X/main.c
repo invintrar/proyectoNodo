@@ -87,12 +87,50 @@ void saveMicroSd() {
     if (timerInit.hours == now.hours && timerInit.minutes == now.minutes && timerInit.seconds == now.seconds) {
         Led_verde_setHigh();
         bSaveData = 1;
+        TMR1_Counter16BitSet(0);
     } else if (timerStop.hours == now.hours && timerStop.minutes == now.minutes && timerStop.seconds == now.seconds) {
         Led_verde_setLow();
         ADXL355_Power_Off();
         bDataAdxl = 0;
         bSaveData = 0;
         bMesure = 0;
+        // Read RTC time
+        ds3234_date_time timeS;
+        uint8_t data[512] = {0};
+        aux = TMR2_Counter32BitGet();
+        DS3234_getTime(&timeS);
+        data[0] = idNodo;
+        data[1] = timeS.seconds;
+        data[2] = timeS.minutes;
+        if (timeS.hours >= 4) {
+            data[3] = timeS.hours - 4;
+            data[5] = timeS.date;
+        } else {
+            data[3] = 20 + timeS.hours;
+            data[5] = timeS.date - 1;
+        }
+        data[4] = timeS.day;
+        data[6] = timeS.month;
+        data[7] = timeS.year;
+        data[8] = aux;
+        data[9] = aux >> 8;
+        data[10] = aux >> 16;
+        data[11] = aux >> 24;
+        data[12] = idNodo;
+        data[13] = idNodo;
+        data[14] = idNodo;
+        data[15] = idNodo;
+        bData = SD_Write_Block(data, sector);
+        while (1) {
+            if (bData == DATA_ACCEPTED) {
+                Led_verde_toggle();
+                bInituSD = 0;
+                sector++;
+                break;
+            } else {
+                bData = SD_Write_Block(data, sector);
+            }
+        }
     }
     if (bSaveData && bDataAdxl) {
         if (bInituSD) {
@@ -130,7 +168,7 @@ void saveMicroSd() {
                 }
             }
         } else {
-            for (j = 0; j < 63; j++) {
+            for (j = 0; j < 9; j++) {
                 dataSentuSD[countUsd] = dataAdxl[j];
                 countUsd++;
                 if (countUsd == 504) {
@@ -330,14 +368,14 @@ void setTimerMesure() {
         timerInit.minutes = timerInit.minutes - 60;
         timerInit.hours = timerInit.hours + 1;
     }
-    if(timerInit.hours > 23){
+    if (timerInit.hours > 23) {
         timerInit.hours = timerInit.hours - 24;
     }
     // Use for stop timer 
     timerStop.seconds = newtime->tm_sec + rxRec[9];
     timerStop.minutes = newtime->tm_min + rxRec[10] + 1;
     timerStop.hours = newtime->tm_hour + rxRec[11];
-    
+
     if (timerStop.seconds > 59) {
         timerStop.minutes = timerStop.minutes + 1;
         timerStop.seconds = timerStop.seconds - 60;
@@ -346,7 +384,7 @@ void setTimerMesure() {
         timerStop.hours = timerStop.hours + 1;
         timerStop.minutes = timerStop.minutes - 60;
     }
-    if(timerStop.hours > 23){
+    if (timerStop.hours > 23) {
         timerStop.hours = timerStop.hours - 24;
     }
 }

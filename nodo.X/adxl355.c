@@ -15,19 +15,18 @@ int dataBuffer[];
 void ADXL355_Init() {
     //Reset the device
     ADXL355_Write_Byte(Reset, 0x52);
-    __delay_ms(100);
+    __delay_ms(25);
 
     ADXL355_Write_Byte(POWER_CTL, TEMP_OFF | STANDBY);
     ADXL355_Write_Byte(Range, _2G | INT_ACTIVE_HIGH);
 
     ADXL355_Write_Byte(Sync, INT_SYNC); //internal clock
-    ADXL355_Write_Byte(Filter, _62_5_Hz); //250Hz and filter Hig
+    ADXL355_Write_Byte(Filter, _62_5_Hz); //250Hz and filter Hight
 
-    ADXL355_Write_Byte(INT_MAP, FULL_EN1);
-    ADXL355_Write_Byte(FIFO_ENTRIES, STORED_FIFO);
-    ADXL355_Write_Byte(FIFO_SAMPLES, WATERMARK);
-
-    __delay_ms(100);
+    ADXL355_Write_Byte(INT_MAP, RDY_EN1);
+    //ADXL355_Write_Byte(FIFO_ENTRIES, STORED_FIFO);
+    //ADXL355_Write_Byte(FIFO_SAMPLES, WATERMARK);
+    __delay_ms(25);
 }
 
 void ADXL355_Write_Byte(char address, char data) {
@@ -61,12 +60,11 @@ unsigned char ADXL355_Read_Byte(unsigned char address) {
     return (temp);
 }
 
-void ADXL355_Read_FIFO() {
+void ADXL355_Read_FIFO(uint8_t data[]) {
     // FIFO stores 3 bytes of data for each axis, the 20 most significant bits
     // are the values in two's complement
-    char dataByte [9]; //
-    int i, z, w;
-    char cbandera, cempty;
+    char dataByte [9] = {0}; //
+    int i;
 
     ADXL355_CS_SetLow();
     SPI1_Exchange_Byte((FIFO_DATA << 1) | 1);
@@ -74,23 +72,10 @@ void ADXL355_Read_FIFO() {
         dataByte[i] = SPI1_Exchange_Byte(0x00);
     }
     ADXL355_CS_SetHigh();
-    __delay_us(5);
-
-    // The 16 most significant bits are kept in an integer 
-    for (z = 0; z < 3; z++) {
-
-        (z == 0) ? (w = 2) : (w += 3);
-
-        cbandera = dataByte[w];
-        cempty = cbandera & 0x02;
-
-        if (cempty == 0) {//El buffer está lleno
-            dataBuffer[z] = ((dataByte[z * 3] << 8) | (dataByte[z * 3 + 1]));
-        } else {//El buffer está vacio
-            dataBuffer[z] = 0x00;
-        }
-
+    for (i = 0; i < 9; i++) {
+        data[i] = dataByte[i];
     }
+    __delay_us(5);
 }
 
 void ADXL355_Read_FIFO_Full(uint8_t getData[]) {
@@ -111,7 +96,7 @@ uint8_t ADXL355_Status() {
     SPI1_Exchange_Byte((Status << 1) | 1);
     value = SPI1_Exchange_Byte(0x00);
     ADXL355_CS_SetHigh();
-    
-    
+
+
     return value;
 }

@@ -118,8 +118,8 @@
  * -FIFO SAMPLES REGISTER
  * Número de muestra samples para que ocurra la condicion FIFO FULL(interrupcion)
  */
-#define STORED_FIFO 0x15
-#define WATERMARK   0x15
+#define STORED_FIFO 0x1
+#define WATERMARK   0x1
 
 /*       Device Addressing      */
 
@@ -155,7 +155,7 @@ void ADXL355_Write_Byte(char, char);
  */
 unsigned char ADXL355_Read_Byte(unsigned char);
 
-void ADXL355_Read_FIFO();
+void ADXL355_Read_FIFO(uint8_t data[]);
 
 void ADXL355_Read_FIFO_Full(uint8_t getData[]);
 

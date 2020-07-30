@@ -26,12 +26,14 @@ void __attribute__((interrupt, no_auto_psv)) _INT0Interrupt(void) {
  * Interrupt for ADXL355Z
  */
 void __attribute__((weak)) EX_INT1_CallBack(void) {
-    bDataAdxl = 1;
-    uint8_t data[63] = {0};
-    ADXL355_Read_FIFO_Full(data); // read data of ADXL355z and save in dataAdxl
+    //bDataAdxl = 1;
+    uint8_t data[9] = {0};
+    uint8_t st = 0;
     if (bPMaster) {
+        st = ADXL355_Status();
+        ADXL355_Read_FIFO(data); // read data of ADXL355z and save in dataAdxl
         Led_verde_toggle();
-        if (contEnv > 15) {
+        if (contEnv > 40) {
             ADC1_SamplingStart();
             ADC1_SamplingStop();
             uint8_t env[12] = {0};
@@ -52,12 +54,12 @@ void __attribute__((weak)) EX_INT1_CallBack(void) {
             RF24L01_sendData(env, 12);
         }
         contEnv++;
-    } else if (bSaveData) {
-        uint8_t i = 0;
-        for (i = 0; i < 63; i++) {
-            dataAdxl[i] = data[i];
-        }
-    }
+    }// else if (bSaveData) {
+       // uint8_t i = 0;
+        //for (i = 0; i < 9; i++) {
+          //  dataAdxl[i] = data[i];
+        //}
+    //}
 }
 
 /**
