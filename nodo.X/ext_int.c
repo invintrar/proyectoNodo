@@ -26,7 +26,13 @@ void __attribute__((interrupt, no_auto_psv)) _INT0Interrupt(void) {
  * Interrupt for ADXL355Z
  */
 void __attribute__((weak)) EX_INT1_CallBack(void) {
+    //Interrupt DS3234 each second
+    TMR1_Counter16BitSet(0);
+    TMR2_Counter32BitSet(0);
     //bDataAdxl = 1;
+    Led_verde_toggle();
+    
+    /*
     uint8_t data[9] = {0};
     uint8_t st = 0;
     if (bPMaster) {
@@ -60,6 +66,7 @@ void __attribute__((weak)) EX_INT1_CallBack(void) {
           //  dataAdxl[i] = data[i];
         //}
     //}
+     * */
 }
 
 /**
@@ -123,7 +130,7 @@ void EXT_INT_Initialize(void) {
      * Enable the interrupt, if enabled in the UI. 
      ********/
     EX_INT1_InterruptFlagClear();
-    EX_INT1_PositiveEdgeSet();
+    EX_INT1_NegativeEdgeSet();
     EX_INT1_InterruptEnable();
     /*******
      * INT2

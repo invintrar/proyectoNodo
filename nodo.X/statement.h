@@ -23,10 +23,10 @@ uint8_t dataSentuSD[512] = {0};
 // Variable for get data from the ADXL355Z
 uint8_t dataAdxl[9] = {0};
 // Identifier Node use for notify master
-uint8_t idNodo = 1;
+uint8_t idNodo = 2;
 // Address for NRF24L01+ RX and TX change for different node
-uint8_t rx_addr[5] = {0xA1, 0xA1, 0xA1, 0xA1, 0xA1}; // Change address for different node1:0xA1...0xA9
-uint8_t tx_addr[5] = {0xA1, 0xA1, 0xA1, 0xA1, 0xA1}; // Node 10 address: 0x79
+uint8_t rx_addr[5] = {0xA2, 0xA2, 0xA2, 0xA2, 0xA2}; // Change address for different node1:0xA1...0xA9
+uint8_t tx_addr[5] = {0xA2, 0xA2, 0xA2, 0xA2, 0xA2}; // Node 10 address: 0x79
 //Data receive or transmit 
 uint8_t rxRec[SIZEDATA] = {0} ;
 uint8_t txEnv[SIZEDATA] = {0}; 

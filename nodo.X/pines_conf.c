@@ -30,7 +30,7 @@ void pines_Conf_Init() {
      * Setting the GPIO Direction SFR(s)
      **************************************************************************/
     TRISA = 0x001D;
-    TRISB = 0x1219;
+    TRISB = 0x5219;//0x1219
 
     /**************************************************************************
      * Setting the Weak Pull Up and Weak Pull Down SFR(s)
@@ -54,7 +54,7 @@ void pines_Conf_Init() {
     __builtin_write_OSCCONL(OSCCON & 0xbf); // unlock PPS
 
     /* Pines de Interrupción externa*/
-    RPINR0bits.INT1R = 0x0024; //RB4->EXT_INT:INT1
+    RPINR0bits.INT1R = 46; //RB4->EXT_INT:INT1 0x0024
     RPINR1bits.INT2R = 0x0014; //RA4->EXT_INT:INT2
 
     /* Pines SPI2 */

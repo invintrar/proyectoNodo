@@ -8,6 +8,8 @@
 #include <p33EP256MC202.h>
 #include "adc1.h"
 #include "sdcard.h"
+#include "tmr1.h"
+#include "tmr2.h"
 
 // Provide C++ Compatibility
 #ifdef __cplusplus  
