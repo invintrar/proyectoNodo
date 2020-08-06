@@ -30,8 +30,6 @@ void __attribute__((weak)) EX_INT1_CallBack(void) {
     TMR1_Counter16BitSet(0);
     TMR2_Counter32BitSet(0);
     //bDataAdxl = 1;
-    Led_verde_toggle();
-    
     /*
     uint8_t data[9] = {0};
     uint8_t st = 0;

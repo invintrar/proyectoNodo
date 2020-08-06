@@ -110,8 +110,8 @@ void __attribute__((weak)) TMR1_CallBack(void) {
     uint8_t st = 0;
     if (bSaveData) {
         bDataAdxl = 1;
-        ADXL355_Read_FIFO(data); // read data of ADXL355z and save in dataAdxl
         st = ADXL355_Status();
+        ADXL355_Read_FIFO(data); // read data of ADXL355z and save in dataAdxl
         uint8_t i = 0;
         for (i = 0; i < 9; i++) {
             dataAdxl[i] = data[i];

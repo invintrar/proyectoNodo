@@ -24,7 +24,8 @@ int main(void) {
     // Initialization dsPIC32EP256MC202
     SYSTEM_Initialize();
     __delay_ms(100);
-
+    
+    setAdress(idNodo);
     // Setup  RF24L01(address and channel y  SIZEDATA in statement.h)
     RF24L01_setup(tx_addr, rx_addr, CHANNEL, SIZEDATA);
 
@@ -123,7 +124,6 @@ void saveMicroSd() {
         bData = SD_Write_Block(data, sector);
         while (1) {
             if (bData == DATA_ACCEPTED) {
-                Led_verde_toggle();
                 bInituSD = 0;
                 sector++;
                 break;
@@ -430,4 +430,72 @@ void sendTime() {
     txEnv[6] = timeSent.year;
     txEnv[7] = timeSent.day;
     RF24L01_sendData(txEnv, SIZEDATA);
+}
+
+void setAdress(uint8_t id) {
+    uint8_t i = 0;
+    switch (id) {
+        case 1:
+            for (i = 0; i < 5; i++) {
+                rx_addr[i] = 0xA1;
+                tx_addr[i] = 0xA1;
+            }
+            break;
+        case 2:
+            for (i = 0; i < 5; i++) {
+                rx_addr[i] = 0xA2;
+                tx_addr[i] = 0xA2;
+            }
+            break;
+        case 3:
+            for (i = 0; i < 5; i++) {
+                rx_addr[i] = 0xA3;
+                tx_addr[i] = 0xA3;
+            }
+            break;
+        case 4:
+            for (i = 0; i < 5; i++) {
+                rx_addr[i] = 0xA4;
+                tx_addr[i] = 0xA4;
+            }
+            break;
+        case 15:
+            for (i = 0; i < 5; i++) {
+                rx_addr[i] = 0xA5;
+                tx_addr[i] = 0xA5;
+            }
+            break;
+        case 6:
+            for (i = 0; i < 5; i++) {
+                rx_addr[i] = 0xA6;
+                tx_addr[i] = 0xA6;
+            }
+            break;
+        case 7:
+            for (i = 0; i < 5; i++) {
+                rx_addr[i] = 0xA7;
+                tx_addr[i] = 0xA7;
+            }
+            break;
+        case 8:
+            for (i = 0; i < 5; i++) {
+                rx_addr[i] = 0xA8;
+                tx_addr[i] = 0xA8;
+            }
+            break;
+        case 9:
+            for (i = 0; i < 5; i++) {
+                rx_addr[i] = 0xA9;
+                tx_addr[i] = 0xA9;
+            }
+            break;
+        case 10:
+            for (i = 0; i < 5; i++) {
+                rx_addr[i] = 0x79;
+                tx_addr[i] = 0x79;
+            }
+            break;
+        default:
+            break;
+    }
 }
