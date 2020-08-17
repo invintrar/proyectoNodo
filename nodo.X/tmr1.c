@@ -108,10 +108,36 @@ void __attribute__((weak)) TMR1_CallBack(void) {
     // Add your custom callback code here
     uint8_t data[9] = {0};
     uint8_t st = 0;
-    if (bSaveData) {
+    if (bPMaster) {
+        st = ADXL355_Status();
+        ADXL355_Read_FIFO(data); // read data of ADXL355z and save in dataAdxl
+        Led_verde_toggle();
+        if (contEnv > 50) {
+            ADC1_SamplingStart();
+            ADC1_SamplingStop();
+            uint8_t env[12] = {0};
+            contEnv = 0;
+            env[0] = 4;
+            env[1] = data[0];
+            env[2] = data[1];
+            env[3] = data[2];
+            env[4] = data[3];
+            env[5] = data[4];
+            env[6] = data[5];
+            env[7] = data[6];
+            env[8] = data[7];
+            env[9] = data[8];
+            env[10] = vAdc;
+            env[11] = vAdc >> 8;
+            //Sent Data for NRF24L01+
+            RF24L01_sendData(env, 12);
+        }
+        contEnv++;
+    } else if (bSaveData) {
         bDataAdxl = 1;
         st = ADXL355_Status();
         ADXL355_Read_FIFO(data); // read data of ADXL355z and save in dataAdxl
+        st = ADXL355_Status();
         uint8_t i = 0;
         for (i = 0; i < 9; i++) {
             dataAdxl[i] = data[i];

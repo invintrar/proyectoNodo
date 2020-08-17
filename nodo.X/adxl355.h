@@ -118,8 +118,8 @@
  * -FIFO SAMPLES REGISTER
  * Número de muestra samples para que ocurra la condicion FIFO FULL(interrupcion)
  */
-#define STORED_FIFO 0x1
-#define WATERMARK   0x1
+#define STORED_FIFO 0x0A
+#define WATERMARK   0x05
 
 /*       Device Addressing      */
 

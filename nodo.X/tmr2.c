@@ -129,6 +129,7 @@ uint32_t TMR2_Counter32BitGet(void) {
 void __attribute__((weak)) TMR2_CallBack(void) {
     if (bTurnOnAdxl){
         ADXL355_Power_On();
+        TMR1_Counter16BitSet(0);
         bTurnOnAdxl = 0;
     }    
 }

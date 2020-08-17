@@ -23,7 +23,7 @@ uint8_t dataSentuSD[512] = {0};
 // Variable for get data from the ADXL355Z
 uint8_t dataAdxl[9] = {0};
 // Identifier Node use for notify master
-uint8_t idNodo = 5;
+uint8_t idNodo = 1;
 // Address for NRF24L01+ RX and TX change for different node
 uint8_t rx_addr[5] = {0}; // Change address for different node1:0xA1...0xA9
 uint8_t tx_addr[5] = {0}; // Node 10 address: 0x79
@@ -54,6 +54,7 @@ ds3234_time timerInit;
 uint32_t sector = 42048;
 //Variable use in ACS722 sensor current for get value current
 uint16_t vAdc = 0;
+uint16_t contadorMuestras = 0;
 // flag use for initiation or stop send data station base
 uint8_t bPMaster = 0;
 // use for after 15 send data Adxl355z
@@ -87,6 +88,7 @@ void setTimerMesure();
 void sendTime();
 void saveMicroSd();// save test delete after
 void setAdress(uint8_t id);
+void setTimeMicroSd();
 #endif
 /*
  * End file

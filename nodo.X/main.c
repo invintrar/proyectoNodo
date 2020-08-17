@@ -24,7 +24,7 @@ int main(void) {
     // Initialization dsPIC32EP256MC202
     SYSTEM_Initialize();
     __delay_ms(100);
-    
+
     setAdress(idNodo);
     // Setup  RF24L01(address and channel y  SIZEDATA in statement.h)
     RF24L01_setup(tx_addr, rx_addr, CHANNEL, SIZEDATA);
@@ -73,7 +73,6 @@ int main(void) {
 }// End main
 
 void saveMicroSd() {
-    int32_t aux = 0;
     uint8_t j = 0;
     uint8_t k = 0;
     uint8_t bData = 0;
@@ -85,88 +84,23 @@ void saveMicroSd() {
     } else {
         now.hours = now.hours + 1;
     }
+    
     if (timerInit.hours == now.hours && timerInit.minutes == now.minutes && timerInit.seconds == now.seconds) {
         Led_verde_setHigh();
         bSaveData = 1;
         TMR1_Counter16BitSet(0);
-    } else if (timerStop.hours == now.hours && timerStop.minutes == now.minutes && timerStop.seconds == now.seconds) {
+    } else if (timerStop.hours == now.hours && timerStop.minutes == now.minutes && timerStop.seconds + 1 == now.seconds) {
         Led_verde_setLow();
         ADXL355_Power_Off();
         bDataAdxl = 0;
         bSaveData = 0;
         bMesure = 0;
-        // Read RTC time
-        ds3234_date_time timeS;
-        uint8_t data[512] = {0};
-        aux = TMR2_Counter32BitGet();
-        DS3234_getTime(&timeS);
-        data[0] = idNodo;
-        data[1] = timeS.seconds;
-        data[2] = timeS.minutes;
-        if (timeS.hours >= 4) {
-            data[3] = timeS.hours - 4;
-            data[5] = timeS.date;
-        } else {
-            data[3] = 20 + timeS.hours;
-            data[5] = timeS.date - 1;
-        }
-        data[4] = timeS.day;
-        data[6] = timeS.month;
-        data[7] = timeS.year;
-        data[8] = aux;
-        data[9] = aux >> 8;
-        data[10] = aux >> 16;
-        data[11] = aux >> 24;
-        data[12] = idNodo;
-        data[13] = idNodo;
-        data[14] = idNodo;
-        data[15] = idNodo;
-        bData = SD_Write_Block(data, sector);
-        while (1) {
-            if (bData == DATA_ACCEPTED) {
-                bInituSD = 0;
-                sector++;
-                break;
-            } else {
-                bData = SD_Write_Block(data, sector);
-            }
-        }
+        setTimeMicroSd();
     }
+    
     if (bSaveData && bDataAdxl) {
         if (bInituSD) {
-            // Read RTC time
-            ds3234_date_time timeS;
-            uint8_t data[512] = {0};
-            aux = TMR2_Counter32BitGet();
-            DS3234_getTime(&timeS);
-            data[0] = idNodo;
-            data[1] = timeS.seconds;
-            data[2] = timeS.minutes;
-            if (timeS.hours >= 4) {
-                data[3] = timeS.hours - 4;
-                data[5] = timeS.date;
-            } else {
-                data[3] = 20 + timeS.hours;
-                data[5] = timeS.date - 1;
-            }
-            data[4] = timeS.day;
-            data[6] = timeS.month;
-            data[7] = timeS.year;
-            data[8] = aux;
-            data[9] = aux >> 8;
-            data[10] = aux >> 16;
-            data[11] = aux >> 24;
-            bData = SD_Write_Block(data, sector);
-            while (1) {
-                if (bData == DATA_ACCEPTED) {
-                    Led_verde_toggle();
-                    bInituSD = 0;
-                    sector++;
-                    break;
-                } else {
-                    bData = SD_Write_Block(data, sector);
-                }
-            }
+            setTimeMicroSd();
         } else {
             for (j = 0; j < 9; j++) {
                 dataSentuSD[countUsd] = dataAdxl[j];
@@ -432,6 +366,11 @@ void sendTime() {
     RF24L01_sendData(txEnv, SIZEDATA);
 }
 
+/**
+ * 
+ * @param id
+ * Set address for module NRF24L01
+ */
 void setAdress(uint8_t id) {
     uint8_t i = 0;
     switch (id) {
@@ -459,7 +398,7 @@ void setAdress(uint8_t id) {
                 tx_addr[i] = 0xA4;
             }
             break;
-        case 15:
+        case 5:
             for (i = 0; i < 5; i++) {
                 rx_addr[i] = 0xA5;
                 tx_addr[i] = 0xA5;
@@ -499,3 +438,41 @@ void setAdress(uint8_t id) {
             break;
     }
 }
+
+// Get time of the DS3234 and save in microSD
+void setTimeMicroSd() {
+    int32_t aux = 0;
+    uint8_t bData = 0;
+    // Read RTC time
+    ds3234_date_time timeS;
+    uint8_t data[512] = {0};
+    aux = TMR2_Counter32BitGet();
+    DS3234_getTime(&timeS);
+    data[0] = idNodo;
+    data[1] = timeS.seconds;
+    data[2] = timeS.minutes;
+    if (timeS.hours >= 4) {
+        data[3] = timeS.hours - 4;
+        data[5] = timeS.date;
+    } else {
+        data[3] = 20 + timeS.hours;
+        data[5] = timeS.date - 1;
+    }
+    data[4] = timeS.day;
+    data[6] = timeS.month;
+    data[7] = timeS.year;
+    data[8] = aux;
+    data[9] = aux >> 8;
+    data[10] = aux >> 16;
+    data[11] = aux >> 24;
+    bData = SD_Write_Block(data, sector);
+    while (1) {
+        if (bData == DATA_ACCEPTED) {
+            bInituSD = 0;
+            sector++;
+            break;
+        } else {
+            bData = SD_Write_Block(data, sector);
+        }
+    }
+} // end setTimeMicroSd
